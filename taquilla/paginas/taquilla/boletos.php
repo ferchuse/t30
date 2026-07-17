@@ -805,7 +805,7 @@
 	</script>
 	
 	<script
-	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC5Ud-MRRxZh7zE_7zy2Scr2jmZIIbGPWo&callback=initMap&v=weekly"
+	src="https://maps.googleapis.com/maps/api/js?key=XX&callback=initMap&v=weekly"
 	defer
 	></script>	
 	
