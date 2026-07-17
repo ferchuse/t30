@@ -99,7 +99,8 @@
 				$conductor = array();
 				//Si es nuevo registro Insertar en tabla gastos_operador
 				
-				$consulta_conductor = "SELECT * FROM conductores WHERE tag_operador = '{$columnas[0]}'";
+				$consulta_conductor = "SELECT * FROM conductores
+				WHERE tag_operador = '{$columnas[0]}' AND estatus_conductores = 'Activo'";
 				
 				$result_conductor = mysqli_query($link, $consulta_conductor) ;
 				

@@ -130,11 +130,16 @@ body.fixed-nav.sidebar-toggled #content-wrapper {
   }
 }
 .bg-purple {
-    background-color: #33287F!important;
+    background-color: #003D7D!important;
 }
+
+/*
+	
+	Color de la barra
+	*/
 .sidebar {
   width: 90px !important;
-  background-color: #33287F;
+  background-color: #003D7D;
   min-height: calc(100vh - 56px);
 }
 
