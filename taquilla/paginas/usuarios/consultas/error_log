@@ -1,0 +1,7 @@
+[21-Oct-2022 01:08:25 UTC] PHP Warning:  include(../../../../conexi.php): failed to open stream: No such file or directory in /home/rhgaazco/public_html/catemaco/paginas/usuarios/consultas/cambiar_contrasena.php on line 2
+[21-Oct-2022 01:08:25 UTC] PHP Warning:  include(../../../../conexi.php): failed to open stream: No such file or directory in /home/rhgaazco/public_html/catemaco/paginas/usuarios/consultas/cambiar_contrasena.php on line 2
+[21-Oct-2022 01:08:25 UTC] PHP Warning:  include(): Failed opening '../../../../conexi.php' for inclusion (include_path='.:/opt/alt/php74/usr/share/pear') in /home/rhgaazco/public_html/catemaco/paginas/usuarios/consultas/cambiar_contrasena.php on line 2
+[21-Oct-2022 01:08:25 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function Conectarse() in /home/rhgaazco/public_html/catemaco/paginas/usuarios/consultas/cambiar_contrasena.php:3
+Stack trace:
+#0 {main}
+  thrown in /home/rhgaazco/public_html/catemaco/paginas/usuarios/consultas/cambiar_contrasena.php on line 3

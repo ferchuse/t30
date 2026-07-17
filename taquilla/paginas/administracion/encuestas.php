@@ -1,0 +1,101 @@
+<?php 
+	include_once("../login/login_check.php");
+	include("../../conexi.php");
+	include("../../funciones/generar_select.php");
+	
+	$link = Conectarse();
+	
+	
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<meta name="description" content="">
+		<meta name="author" content="">
+		<title>Usuarios</title>
+		<?php include('../../styles.php')?>
+	</head>
+	<body id="page-top">
+		<?php include("../../navbar.php")?>
+		<div id="wrapper">
+			<?php include("../../menu.php")?>	
+			<div id="content-wrapper">		
+				<div class="container-fluid">		
+					<!-- Breadcrumbs-->
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item">
+							<a href="#">Administración</a>
+						</li>
+						<li class="breadcrumb-item active">Encuestas</li>
+					</ol>
+					
+					<form id="form_filtros" >
+						<div class="row mb-2">
+							
+							<div class="col-sm-2"> 
+								<label>Fecha Inicial</label>
+								<input class="form-control" type="date" name="fecha_inicial" value="<?php echo date("Y-m-01")?>">
+							</div>
+							<div class="col-sm-2"> 
+								<label>Fecha Final</label>
+								<input   class="form-control" type="date" name="fecha_final" value="<?php echo date("Y-m-d")?>">
+							</div>
+							
+							<div class="form-group col-sm-2 pt-4"> 
+								<button type="submit"  title="Buscar" class="btn btn-primary  d-print-none btn-sm ">
+									<i class="fas fa-search"></i> Buscar
+								</button>	
+								
+							</div>
+						</div>
+					</form>
+					<hr>
+					
+					<ul class="nav nav-tabs" id="encuestasTab" role="tablist">
+						<li class="nav-item">
+							<a class="nav-link active" id="taxi-tab" data-toggle="tab" href="#encuestas_taxi" role="tab">Encuestas Taxi</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" id="colectivo-tab" data-toggle="tab" href="#encuestas_colectivo" role="tab">Encuestas Colectivo</a>
+						</li>
+					</ul>
+					
+					<div class="tab-content" id="encuestasTabContent">
+						<div class="tab-pane fade show active" id="encuestas_taxi" role="tabpanel">
+							
+						</div>
+						<div class="tab-pane fade" id="encuestas_colectivo" role="tabpanel">
+							
+						</div>
+					</div>
+					
+					
+				</div>
+				<!-- /.container-fluid -->
+				
+				
+			</div>
+			<!-- /.content-wrapper -->
+		</div>
+		<!-- /#wrapper -->
+		
+		<!-- Scroll to Top Button-->
+		<a class="scroll-to-top rounded" href="#page-top">
+			<i class="fas fa-angle-up"></i>
+		</a>		
+		
+		
+		<!-- The Modal -->
+		
+		
+		
+		<?php include("forms/form_usuarios.php")?>
+		<?php include("../../scripts.php")?>
+		<script src="js/encuestas.js?v=<?= date("dmYHi")?>" ></script>
+		
+	</body>
+</html>

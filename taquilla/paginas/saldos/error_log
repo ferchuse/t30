@@ -1,0 +1,8 @@
+[17-Aug-2022 14:17:19 America/Mexico_City] PHP Notice:  Use of undefined constant id_empresas - assumed 'id_empresas' in /home/rhgaazco/public_html/catemaco/paginas/saldos/forms/form_entrega.php on line 28
+[17-Aug-2022 14:17:19 America/Mexico_City] PHP Notice:  Use of undefined constant id_beneficiarios - assumed 'id_beneficiarios' in /home/rhgaazco/public_html/catemaco/paginas/saldos/forms/form_entrega.php on line 32
+[21-Sep-2022 03:18:18 America/Mexico_City] PHP Notice:  Undefined variable: _SESSION in /home/rhgaazco/public_html/catemaco/paginas/saldos/desglose_dinero.php on line 59
+[21-Sep-2022 03:19:19 America/Mexico_City] PHP Notice:  Undefined variable: _SESSION in /home/rhgaazco/public_html/catemaco/paginas/saldos/desglose_dinero.php on line 59
+[14-Oct-2022 19:46:19 America/Mexico_City] PHP Notice:  Use of undefined constant id_empresas - assumed 'id_empresas' in /home/rhgaazco/public_html/catemaco/paginas/saldos/forms/form_entrega.php on line 28
+[14-Oct-2022 19:46:19 America/Mexico_City] PHP Notice:  Use of undefined constant id_beneficiarios - assumed 'id_beneficiarios' in /home/rhgaazco/public_html/catemaco/paginas/saldos/forms/form_entrega.php on line 32
+[19-Oct-2022 11:07:44 America/Mexico_City] PHP Warning:  Use of undefined constant id_empresas - assumed 'id_empresas' (this will throw an Error in a future version of PHP) in /home/rhgaazco/public_html/catemaco/paginas/saldos/forms/form_entrega.php on line 28
+[19-Oct-2022 11:07:44 America/Mexico_City] PHP Warning:  Use of undefined constant id_beneficiarios - assumed 'id_beneficiarios' (this will throw an Error in a future version of PHP) in /home/rhgaazco/public_html/catemaco/paginas/saldos/forms/form_entrega.php on line 32

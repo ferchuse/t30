@@ -1,0 +1,1 @@
+<?php 	if($_SERVER["SERVER_NAME"] == "localhost" || $_SERVER["SERVER_NAME"] == "192.168.0.2"){		$url = "location:../login/form_login.php?retorno=".$_SERVER['PHP_SELF'];	}		else{		$url = "location: ../login/form_login.php?retorno=".$_SERVER['PHP_SELF'];	}			if (!isset($_COOKIE['id_usuarios']) || !isset($_COOKIE['empresa_asignada'])) {		header($url);	}	?>

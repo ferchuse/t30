@@ -1,0 +1,93 @@
+.dropdown-item
+{
+	white-space: normal;
+}
+.cargando{
+	background: url('../img/cargando.gif') no-repeat right center;
+}
+
+@media print{
+	
+	#ticket{
+		font-family: serif !important;
+	}
+	
+	#carta{
+		margin-top: auto !important;
+		margin-bottom: auto !important;
+		margin-left: auto !important;
+		margin-right: auto !important;
+	}
+	
+}
+
+thead{
+	color: #fff;
+    background-color: #337ab7 !important;
+	position: -webkit-sticky;
+	position: sticky ;
+	top: 0;
+	cursor: pointer; 
+}
+
+.table-fixed{
+	
+	max-height: 40em;
+	overflow: auto;
+}
+
+
+#impresion{
+ 
+	color: black !important;
+	font-size: 24px !important;
+}
+#ticket{
+	white-space: normal;
+	line-height: normal;
+	font-weight: normal;
+	font-size: medium;
+	font-style: normal;
+	text-align: start;
+	font-variant: normal;
+	font-family: serif !important;
+	max-width: 100mm;
+	color: black !important;
+	font-size: 24px !important;
+}
+.roles{ 
+	font-stretch: ultra-condensed;
+	font-family: "Arial Narrow";
+	letter-spacing: 0px;
+	color: black !important;
+	font-size: 12px !important;
+}
+
+.mayus 
+{
+	text-transform: uppercase;
+}
+
+/* Chrome, Safari, Edge, Opera  quita flechitas de tipo number*/
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+	-moz-appearance: textfield;
+}
+
+.focusable {
+	cursor: pointer; 
+}
+.focusable .selected{
+	background-color: #46b8da !important; 
+}
+.selected {
+	background-color: #46b8da !important;
+}
+
+
