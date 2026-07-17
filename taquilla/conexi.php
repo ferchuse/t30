@@ -8,7 +8,7 @@
 		
 		if($_SERVER["SERVER_NAME"] == "localhost"){
 			
-			$db="taxi_demo";
+			$db="t30";
 			$usuario="root";
 			$pass="bH67nRm9i4Qx1yao";
 			$set_local = "SET time_zone = '-06:00'";

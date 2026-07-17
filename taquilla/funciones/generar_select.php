@@ -62,7 +62,7 @@
 		if(!$result){
 			
 			die($consulta. mysqli_error($link));
-			}
+		}
 		
 		while($fila = mysqli_fetch_assoc($result)){
 			$select.="<option value='".$fila[$llave_primaria]."'";
@@ -90,6 +90,23 @@
 		$select.="</select> ";
 		
 		return $select;
+	}
+	
+	function is_selected($proto,  $proto_db){
+		if($proto == $proto_db){
+			return 'selected';
+		}
+		else{
+			return ;
+		}
+	}
+	function is_checked($bool){
+		if($bool == 1 ){
+			return 'checked';
+		}
+		else{
+			return ;
+		}
 	}
 	
 ?>
