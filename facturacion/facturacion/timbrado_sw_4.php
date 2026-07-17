@@ -4,7 +4,7 @@
 	header("Pragma: no-cache");
 	header("Content-Type: application/json");
 	
-	include_once("../conexi.php");
+	include_once("../../taquilla/conexi.php");
 	
 	
 	$link = Conectarse();

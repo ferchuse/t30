@@ -7,7 +7,7 @@
 	setlocale(LC_ALL,"en_US"); 
 	
 	include("control/is_selected.php");
-	include("conexi.php");
+	include("../taquilla/conexi.php");
 	include("funciones/funciones_factura.php");
 	include("funciones/generar_select.php");
 	

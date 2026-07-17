@@ -26,23 +26,15 @@
 		
 		
 		<div class="container">
+			
 			<div class="row">
-				<div class="col text-center">
-					<img class="w-25" class="img-fluid" src="../taquilla/img/logo.png">
-				</div>
-			</div>
-			<h4 class="text-center">
-			Elige una opción
-		</h4>
-			<div class="row">
-				<div class="col-6 d-inline">
-						<h2>Boleto  Ruta Aduanas-18 de Marzo: </h2>
-					<a href="factura_ruta.php" class="btn btn-success btn-lg align-middle d-inline-block">
-						Capturar Folio Facturación
-					</a>
+				<div class="col-6 ">
+					<div class="col text-center">
+						<img  class="w-50 img-fluid" src="../taquilla/img/logo.png">
+					</div>
 				</div>
 				<div class="col-6">
-					<h2>Boleto de Taxi AIFA: </h2>
+					<h2>Ingresa los datos del Boleto: </h2>
 					<form id="form_buscar" action="encuesta.php">
 						<div class="form-group">
 							<label>Folio:</label>

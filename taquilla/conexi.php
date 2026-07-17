@@ -14,11 +14,11 @@
 			$set_local = "SET time_zone = '-06:00'";
 			$set_names = "SET NAMES 'utf8'";
 		}
-		elseif($_SERVER["SERVER_NAME"] == "taxidemo.glifo.mx"){
+		elseif($_SERVER["SERVER_NAME"] == "t30.mx"){
 			
-			$db="u758077748_taxi_demo";
-			$usuario="u758077748_taxi_demo";
-			$pass="Ws$7AiBRBLB!";
+			$db="taquillat30";
+			$usuario="taxi150726";
+			$pass="EE@HxD7v3Of_lZqH";
 			$set_local = "SET time_zone = '-06:00'";
 			$set_names = "SET NAMES 'utf8'";
 		}

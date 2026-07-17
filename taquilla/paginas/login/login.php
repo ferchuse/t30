@@ -51,17 +51,17 @@
 			
 			$id_usuarios = $row["id_usuarios"];
 			$nombre_usuarios= $row["nombre_usuarios"];
-			
+			$baseurl = "/t30";
 			
 			if($_SERVER["SERVER_NAME"] == "localhost"){
-				setcookie("id_usuarios", $id_usuarios,  0, "/taxi_demo");
-				setcookie("nombre_usuarios", $nombre_usuarios,  0, "/taxi_demo");
+				setcookie("id_usuarios", $id_usuarios,  0, $baseurl );
+				setcookie("nombre_usuarios", $nombre_usuarios,  0, $baseurl);
 				// setcookie("permiso_usuarios", $row["permiso_usuarios"],  0, "/taxidriver");
-				setcookie("id_administrador",  $row["id_administrador"],  0, "/taxi_demo");
-				setcookie("tipo_usuario",  $row["tipo_usuario"],  0, "/taxi_demo");
-				setcookie("id_taquilla", $row["taquilla_predet"],  0, "/taxi_demo");
-				setcookie("tipo_impresora", $row["tipo_impresora"],  0, "/taxi_demo");
-				setcookie("empresa_asignada", $row["empresa_asignada"],  0, "/taxi_demo");
+				setcookie("id_administrador",  $row["id_administrador"],  0, $baseurl);
+				setcookie("tipo_usuario",  $row["tipo_usuario"],  0, $baseurl);
+				setcookie("id_taquilla", $row["taquilla_predet"],  0, $baseurl);
+				setcookie("tipo_impresora", $row["tipo_impresora"],  0, $baseurl);
+				setcookie("empresa_asignada", $row["empresa_asignada"],  0, $baseurl);
 				
 			}
 			else{
