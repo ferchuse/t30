@@ -1,6 +1,7 @@
 <?php
 	
 	require("../../../conexi.php");
+	require("../emisores/emisor_funciones.php");
 	
 	$link = Conectarse();
 	
@@ -8,11 +9,11 @@
 	
 	$rfc_emisores = mysqli_real_escape_string($link,$_POST["rfc_emisores"]);
 	$razon_social_emisores = mysqli_real_escape_string($link,$_POST["razon_social_emisores"]);
-	$password = mysqli_real_escape_string($link,$_POST["password"]);
+	// $password = mysqli_real_escape_string($link,$_POST["password"]);
 	$regimen_emisores = mysqli_real_escape_string($link,$_POST["regimen_emisores"]);
 	$lugar_expedicion_emisores = mysqli_real_escape_string($link,$_POST["lugar_expedicion_emisores"]);
 	$correo_emisores = mysqli_real_escape_string($link,$_POST["correo_emisores"]);
-	$tipo_persona = mysqli_real_escape_string($link,$_POST["tipo_persona"]);
+	// $tipo_persona = mysqli_real_escape_string($link,$_POST["tipo_persona"]);
 	
 	$serie = mysqli_real_escape_string($link,$_POST["serie"]);
 	$folio = intval($_POST["folio"]);
@@ -33,6 +34,9 @@
 	$url_logo="";
 	
 	
+	$password = encriptar($_POST["password"]);
+	
+	$password_correo = encriptar($_POST["password_correo"]);
 	
 	/**************************************************
 		SUBIR CERTIFICADO
@@ -47,7 +51,7 @@
 		
 		move_uploaded_file($_FILES["certificado"]["tmp_name"],"certificados/".$nombre);
 		
-		$url_certificado_emisores="certificados/".$nombre;
+		$url_certificado_emisores= $nombre;
 		
 	}
 	
@@ -66,7 +70,7 @@
 		
 		move_uploaded_file($_FILES["llave"]["tmp_name"],"certificados/".$nombre);
 		
-		$url_llave_privada_emisores="certificados/".$nombre;
+		$url_llave_privada_emisores= $nombre;
 		
 	}
 	
@@ -85,7 +89,7 @@
 		
 		move_uploaded_file($_FILES["logo"]["tmp_name"],"logos/".$nombre);
 		
-		$url_logo="logos/".$nombre;
+		$url_logo= $nombre;
 		
 	}
 	
@@ -105,7 +109,6 @@
 		fecha_validez_certificado='$fecha_validez_certificado',
 		lugar_expedicion_emisores='$lugar_expedicion_emisores',
 		correo_emisores='$correo_emisores',
-		tipo_persona='$tipo_persona',
 		url_logo='$url_logo',
 		serie='$serie',
 		folio='$folio',
@@ -122,8 +125,9 @@
 		
 		$id_emisores=mysqli_insert_id($link);
 		
-		}else{
-		
+	}
+	else{
+		//Actualizar
 		$sql="UPDATE emisores SET
 		rfc_emisores='$rfc_emisores',
 		razon_social_emisores='$razon_social_emisores',
@@ -132,7 +136,6 @@
 		fecha_validez_certificado='$fecha_validez_certificado',
 		lugar_expedicion_emisores='$lugar_expedicion_emisores',
 		correo_emisores='$correo_emisores',
-		tipo_persona='$tipo_persona',
 		serie='$serie',
 		folio='$folio',
 		serie_pago='$serie_pago',

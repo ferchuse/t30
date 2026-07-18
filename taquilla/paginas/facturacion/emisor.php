@@ -2,10 +2,26 @@
 	include_once("../login/login_check.php");
 	include("../../conexi.php");
 	include("../../funciones/generar_select.php");
+	include("emisores/emisor_funciones.php");
 	
 	$link = Conectarse();
 	
 	
+	
+	$emisor = getEmisor(1);
+	
+	if(!$emisor){
+		$emisor = [];
+	}
+	
+	$regimen_emisores = $emisor['regimen_emisores'] ?? '';
+	
+	$password=desencriptar($emisor["password"]);
+	
+	$password_correo=desencriptar($emisor["password_correo"]);
+	
+	$dir_certificados = "consultas/certificados/";
+	$dir_logos = "consultas/logos/";
 ?>
 
 <!DOCTYPE html>
@@ -33,8 +49,8 @@
 						<li class="breadcrumb-item active">Emisor</li>
 					</ol>
 					
-					<div class="container mt-4">
-						<form id="frmEmisor" enctype="multipart/form-data">
+					<form id="frmEmisor" enctype="multipart/form-data">
+						<div class="container mt-4">
 							<div class="card shadow">
 								
 								<div class="card-header bg-primary text-white">
@@ -57,6 +73,7 @@
 											class="form-control"
 											id="rfc"
 											name="rfc_emisores"
+											value="<?php echo $emisor['rfc_emisores'] ?? ''; ?>"
 											readonly>
 											
 										</div>
@@ -70,6 +87,7 @@
 											class="form-control"
 											id="razon_social"
 											name="razon_social_emisores"
+											value="<?php echo $emisor['razon_social_emisores'] ?? ''; ?>"
 											readonly>
 											
 										</div>
@@ -90,6 +108,27 @@
 											name="certificado"
 											class="form-control">
 											
+											<?php if(!empty($emisor['url_certificado_emisores'])){ ?>
+												
+												<small class="text-success">
+													Certificado actual:
+													<a href="<?php echo $dir_certificados.$emisor['url_certificado_emisores']; ?>" target="_blank">
+														<?php echo basename($emisor['url_certificado_emisores']); ?>
+													</a>
+												</small>
+												
+											<?php } ?>
+											<br>
+											<?php if(!empty($emisor['url_certificado_emisores'])){ ?>
+												<span class="badge badge-success">
+													<i class="fa fa-check"></i> Certificado cargado
+												</span>
+												<?php }
+												else{ ?>
+												<span class="badge badge-danger">
+													<i class="fa fa-times"></i> Sin certificado
+												</span>
+											<?php } ?>
 										</div>
 										
 										<div class="col-md-6">
@@ -99,9 +138,30 @@
 											<input
 											type="file"
 											accept=".key"
-											name="key"
+											name="llave"
 											class="form-control">
 											
+											<?php if(!empty($emisor['url_llave_privada_emisores'])){ ?>
+												
+												<small class="text-success">
+													Llave actual:
+													
+													<a href="<?php echo $dir_certificados.$emisor['url_llave_privada_emisores']; ?>" target="_blank">
+														<?php echo basename($emisor['url_llave_privada_emisores']); ?>
+													</a>
+												</small>
+												
+											<?php } ?>
+											<br>
+											<?php if(!empty($emisor['url_llave_privada_emisores'])){ ?>
+												<span class="badge badge-success">
+													<i class="fa fa-check"></i> LLave cargada
+												</span>
+												<?php }else{ ?>
+												<span class="badge badge-danger">
+													<i class="fa fa-times"></i> Sin llave
+												</span>
+											<?php } ?>
 										</div>
 										
 									</div>
@@ -115,8 +175,9 @@
 											<input
 											type="password"
 											class="form-control"
-											name="password">
-											
+											id="password"
+											name="password"
+											value="<?php echo !empty($emisor['password']) ? desencriptar($emisor['password']) : ''; ?>">
 										</div>
 										
 										<div class="col-md-6">
@@ -146,7 +207,9 @@
 											type="text"
 											readonly
 											id="fecha"
-											class="form-control">
+											name="fecha_validez_certificado"
+											class="form-control"
+											value="<?php echo $emisor['fecha_validez_certificado'] ?? ''; ?>">
 											
 										</div>
 										
@@ -158,7 +221,9 @@
 											type="text"
 											readonly
 											id="numero"
-											class="form-control">
+											name="numero"
+											class="form-control"
+											value="<?php echo $emisor['numero_certificado'] ?? ''; ?>">
 											
 										</div>
 										<div class="col-md-3">
@@ -198,7 +263,7 @@
 									
 									<div class="row">
 										
-										<div class="col-md-6">
+										<div class="col-md-3">
 											
 											<label>Logo</label>
 											
@@ -210,12 +275,25 @@
 											
 										</div>
 										
-										<div class="col-md-6">
+										<div class="col-md-3">
 											
 											<img
 											id="preview"
 											class="img-thumbnail"
-											style="max-height:150px;">
+											style="max-height:150px;"
+											src="<?php echo !empty($emisor['url_logo']) ? $emisor['url_logo'] : ''; ?>">
+											
+										</div>
+										
+										<div class="col-md-3">
+											<label>Lugar Expedición</label>
+											
+											<input
+											type="number"
+											placeholder="CP: Ej 11500"
+											name="lugar_expedicion_emisores"
+											class="form-control"
+											value="<?php echo $emisor['lugar_expedicion_emisores'] ?? ''; ?>">
 											
 										</div>
 										
@@ -239,20 +317,23 @@
 										
 										<div class="form-group col-md-3">
 											<label>Serie Facturas</label>
-											<input type="text"
+											<input
+											type="text"
 											class="form-control"
 											name="serie"
 											maxlength="10"
-											value="A">
+											value="<?php echo $emisor['serie'] ?? 'A'; ?>">
 										</div>
 										
 										<div class="form-group col-md-3">
 											<label>Folio Facturas</label>
-											<input type="number"
+											
+											<input
+											type="number"
 											class="form-control"
 											name="folio"
 											min="1"
-											value="1">
+											value="<?php echo $emisor['folio'] ?? 1; ?>">
 										</div>
 										
 										<div class="form-group col-md-3">
@@ -291,24 +372,31 @@
 										
 										<div class="form-group col-md-4">
 											<label>Correo para Enviar Facturas</label>
-											<input type="email"
+											
+											<input
+											type="email"
 											class="form-control"
 											name="correo_emisores"
-											placeholder="">
+											value="<?php echo $emisor['correo_emisores'] ?? ''; ?>">
 										</div>
 										<div class="form-group col-md-4">
 											<label>Contraseña del Correo</label>
-											<input type="password"
+											
+											<input
+											type="password"
 											class="form-control"
 											name="password_correo"
-											autocomplete="new-password">
+											autocomplete="new-password"
+											value="<?php echo !empty($emisor['password_correo']) ? desencriptar($emisor['password_correo']) : ''; ?>">
 										</div>
 										<div class="form-group col-md-4">
 											<label>Servidor SMTP</label>
-											<input type="text"
+											<input
+											type="text"
 											class="form-control"
 											name="host_correo"
-											placeholder="smtp.midominio.com">
+											value="<?php echo $emisor['host_correo'] ?? ''; ?>">
+											
 										</div>
 										
 										
@@ -319,18 +407,18 @@
 										
 										<div class="form-group col-md-6">
 											<label>Token Producción</label>
-											<textarea class="form-control"
+											<textarea
+											class="form-control"
 											name="token_produccion"
-											rows="3"
-											placeholder="Token de producción"></textarea>
+											rows="3"><?php echo $emisor['token_produccion'] ?? ''; ?></textarea>
 										</div>
 										
 										<div class="form-group col-md-6">
 											<label>Token Pruebas</label>
-											<textarea class="form-control"
+											<textarea
+											class="form-control"
 											name="token_pruebas"
-											rows="3"
-											placeholder="Token de pruebas"></textarea>
+											rows="3"><?php echo $emisor['token_pruebas'] ?? ''; ?></textarea>
 										</div>
 										
 									</div>
@@ -338,7 +426,11 @@
 								</div>
 							</div>
 							
-							<input type="hidden" name="id_emisores" id="id_emisores" value="">
+							<input
+							type="hidden"
+							name="id_emisores"
+							id="id_emisores"
+							value="<?php echo $emisor['id_emisores'] ?? ''; ?>">
 							
 							<div class="text-right mt-4 mb-4">
 								

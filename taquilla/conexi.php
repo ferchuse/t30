@@ -1,41 +1,39 @@
 <?php
 	$cat_empresas = [1=> "EMPRESA DEMO", 2=> "AUTOTRANSPORTISTAS MEXIQUENSES SANROD, S. A. DE C. V." ];
 	
+	
+	if($_SERVER["SERVER_NAME"] == "localhost"){
+		
+		$config = require 'D:\wamp\www\t30\config_local.php';
+	}
+	elseif($_SERVER["SERVER_NAME"] == "t30.mx"){
+		
+		$config = require "/home/ieileqp9kdni/public_html/t30mx/app/config.php";
+	}
+	
+	
 	function Conectarse()
 	{
-		
-		$host="localhost";
-		
-		if($_SERVER["SERVER_NAME"] == "localhost"){
-			
-			$db="t30";
-			$usuario="root";
-			$pass="bH67nRm9i4Qx1yao";
-			$set_local = "SET time_zone = '-06:00'";
-			$set_names = "SET NAMES 'utf8'";
-		}
-		elseif($_SERVER["SERVER_NAME"] == "t30.mx"){
-			
-			$db="taquillat30";
-			$usuario="taxi150726";
-			$pass="EE@HxD7v3Of_lZqH";
-			$set_local = "SET time_zone = '-06:00'";
-			$set_names = "SET NAMES 'utf8'";
-		}
-		
-		
-		
+				
+		$set_local = "SET time_zone = '-06:00'";
+		$set_names = "SET NAMES 'utf8'";
 		
 		date_default_timezone_set('America/Mexico_City');
 		setlocale(LC_ALL,"es_MX"); 
 		setlocale(LC_NUMERIC, 'en_US'); 
 		
-		if (!($link=mysqli_connect($host,$usuario,$pass)))
-		{
-			die( "Error conectando a la base de datos.". mysqli_error($link));
+		$link = mysqli_connect(
+        DB_HOST,
+        DB_USER,
+        DB_PASS,
+        DB_NAME
+		);
+		
+		if(!$link){
+			die(mysqli_connect_error());
 		}
 		
-		if (!mysqli_select_db($link, $db))
+		if (!mysqli_select_db($link, DB_NAME))
 		{
 			die( "Error seleccionando la base de datos.". mysqli_error($link));
 		}

@@ -1,11 +1,11 @@
 {
-    "theme_color": "#33287F",
-    "background_color": "#33287F",
+    "theme_color": "#003D7D",
+    "background_color": "#003D7D",
     "display": "standalone",
     "scope": "/taquilla",
     "start_url": "/taquilla",
-    "name": "AMSANROD",
-    "short_name": "AMSANROD",
+    "name": "T30",
+    "short_name": "T30",
     "icons": [
         {
             "src": "img/icons/icon-192x192.png",
@@ -17,15 +17,6 @@
             "sizes": "256x256",
             "type": "image/png"
         },
-        {
-            "src": "img/icons/icon-384x384.png",
-            "sizes": "384x384",
-            "type": "image/png"
-        },
-        {
-            "src": "img/icons/icon-512x512.png",
-            "sizes": "512x512",
-            "type": "image/png"
-        }
+       
     ]
 }

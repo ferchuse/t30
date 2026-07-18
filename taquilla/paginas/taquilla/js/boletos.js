@@ -6,6 +6,26 @@ var  $select_boletos = "";
 $(document).ready(onLoad);
 
 function onLoad(){
+	$("#btn_prueba").click(imprimirPrueba)
+			
+			function imprimirPrueba(){
+				console.log("imprimirTicket()");
+				
+				return $.ajax({
+					url: "impresion/imprimir_prueba.php" ,
+					}).done(function (respuesta){
+					
+					printService.submit({
+						'type': 'LABEL',
+						'raw_content': respuesta
+					});
+					
+					
+					}).always(function(){
+					
+				});
+			}
+			
 	
 	listaBoletos();
 	

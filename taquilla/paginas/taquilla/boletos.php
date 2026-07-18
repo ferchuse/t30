@@ -144,8 +144,8 @@
 											<label class="">Tarifa Base por KM :</label>
 											<input class="form-control" id="tarifa" type="number" value="6">
 										</div>
-										<button id="btn_prueba" type="button" class="btn btn-info d-none"> 
-											<i class="fas fa-print"></i> Prueba 
+										<button id="btn_prueba" type="button" class="btn btn-info"> 
+											<i class="fas fa-print"></i> Probar Impresora 
 										</button>
 										<div class="float-right">
 											
