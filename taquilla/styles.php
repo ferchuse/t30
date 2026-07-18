@@ -11,7 +11,7 @@
 <link href="../../css/estilos.css?v=<?php echo date("d-m-y-h-i")?>" rel="stylesheet ">
 <link href="../../css/alertify.min.css" rel="stylesheet">
 
-<link rel="manifest" href="../../manifest.webmanifest?v=1234">
+<link rel="manifest" href="../../manifest.webmanifest?v=<?php echo date("d")?>">
 
 <meta name="mobile-web-app-capable" content="yes" />
 <link rel="shortcut icon" sizes="192x192" href="../../img/icons/icon-192x192.png?v=<?php echo date("d")?>" />

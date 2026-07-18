@@ -55,7 +55,7 @@
 			try {
 				await navigator.serviceWorker.register('../../sw.js'); 
 				} catch (e) {
-				alert('ServiceWorker registration failed. Sorry about that.'); 
+				alert('Error al registrar Service Worker Verificar Ruta sw.js'); 
 			}
 			} else {
 			document.querySelector('.alert').removeAttribute('hidden'); 
