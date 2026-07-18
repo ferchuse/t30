@@ -1,5 +1,6 @@
 <?php
 	include('../../../taquilla/conexi.php');
+	include("../../../taquilla/paginas/facturacion/emisores/emisor_funciones.php");
 	$link = Conectarse();
 	
 	$consulta = "SELECT * FROM emisores WHERE id_emisores = {$_GET["id_emisores"]}";
@@ -35,17 +36,17 @@
 		$mail->Host       = $empresa["host_correo"];                     //Set the SMTP server to send through
 		$mail->SMTPAuth   = true;                                   //Enable SMTP authentication
 		$mail->Username   = $empresa["correo_emisores"];                         //SMTP username
-		$mail->Password   = $empresa["password_correo"];                                   //SMTP password
+		$mail->Password   = desencriptar($empresa["password_correo"]);                                   //SMTP password
 		$mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
 		$mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 		
 		//Recipients
 		$mail->setFrom($empresa["correo_emisores"], "Facturacion {$empresa["razon_social_emisores"]}");
 		// foreach($recipients as $recipient){
-			// $arr_recipient = explode(":", $recipient);
-			// $mail->addAddress($arr_recipient[0], $arr_recipient[1]);  
-			
-			// echo $arr_recipient[0], "correo", $arr_recipient[1];
+		// $arr_recipient = explode(":", $recipient);
+		// $mail->addAddress($arr_recipient[0], $arr_recipient[1]);  
+		
+		// echo $arr_recipient[0], "correo", $arr_recipient[1];
 		// }
 		
 		$mail->addAddress($_GET["correo"]);               //Name is optional
@@ -67,4 +68,4 @@
 		echo 'Message has been sent';
 		} catch (Exception $e) {
 		echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
-	}			
+	}				
