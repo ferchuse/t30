@@ -1,5 +1,5 @@
 <?php
-	include('../../conexi.php');
+	include('../../../taquilla/conexi.php');
 	$link = Conectarse();
 	
 	$consulta = "SELECT * FROM emisores WHERE id_emisores = {$_GET["id_emisores"]}";
