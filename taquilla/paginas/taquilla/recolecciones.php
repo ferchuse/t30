@@ -319,19 +319,21 @@
 		<script src="recolecciones/js/recolecciones.js?v=<?= date("Y-m-d-H-s")?>"></script>
 		<!-- PushAlert -->
 		<!-- PushAlert -->
+		<!-- PushAlert Unified Code -->
 		<script type="text/javascript">
 			(function(d, t) {
-                var g = d.createElement(t),
-                s = d.getElementsByTagName(t)[0];
-                g.src = "https://cdn.pushalert.co/integrate_7d68f00a03cf2dfcc08ff411e941d919.js";
-                s.parentNode.insertBefore(g, s);
+				var g = d.createElement(t),
+				s = d.getElementsByTagName(t)[0];
+				g.src = "https://cdn.pushalert.co/unified_448a00140f3c24d7e0648882adc795ab.js";
+				s.parentNode.insertBefore(g, s);
 			}(document, "script"));
 		</script>
+		<!-- End PushAlert Unified Code -->
 		<!-- End PushAlert -->
 		<!-- End PushAlert -->
 		
 		<script>
-			(pushalertbyiw = window.pushalertbyiw || []).push(['addToSegment', "51126", callbackFunction]);
+			(pushalertbyiw = window.pushalertbyiw || []).push(['addToSegment', '57970', callbackFunction]);
 			
 			function callbackFunction(result){
 				console.log(result.success) // True or False

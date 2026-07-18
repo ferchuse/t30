@@ -40,7 +40,7 @@
 	if(isset($_GET["tipo_ticket"])){
 		
 		
-		//ticket operador
+		//Solo ticket operador
 		
 		$respuesta.= $fila_venta["nombre_empresas"]. "\n";
 		$respuesta.= "Folio:        " . $fila_venta["id_boletos"]. "\n";
@@ -92,7 +92,7 @@
 		$respuesta.= $fila_venta["nombre_empresas"]. "\n\n";
 		$respuesta.=  "\x1b"."E".chr(0); // Not Bold	
 		
-		$respuesta.= convertBmpToEscpos("../../../img/logo_200.jpg");
+		$respuesta.= convertBmpToEscpos("../../../img/logo_200.jpg?v=123");
 		$respuesta.=  "\x1b"."@";
 		$respuesta.=$leftAlign ;
 		// $respuesta.= "Whatsapp: 56 14 61 17 66 \n\n";
