@@ -65,7 +65,7 @@
 	
 	//inserta en permisos paginas
 	
-	foreach ($_POST{"id_paginas"} as $i => $pagina){
+	foreach ($_POST["id_paginas"] as $i => $pagina){
 		
 		$q_permisos = "INSERT INTO permisos SET
 		id_paginas = '{$_POST["id_paginas"][$i]}',

@@ -62,7 +62,7 @@
 						<div class="col-5">			
 							<?php 
 								
-								echo generar_select($link, "empresas", "id_empresas", "nombre_empresas", false, false, true, 0, "empresa_asignada","empresa_asignada","empresa_asignada");
+								echo generar_select($link, "empresas", "id_empresas", "nombre_empresas", false, false, true, 1, "empresa_asignada","empresa_asignada","empresa_asignada");
 								
 								
 							?>

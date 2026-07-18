@@ -15,7 +15,8 @@
 		
 		$consulta.=" AND nombre_usuarios LIKE '%{$_GET["nombre_usuarios"]}%'";
 	}
-	$consulta.=" AND empresa_asignada = '{$_COOKIE["empresa_asignada"]}'";
+	
+	// $consulta.=" AND empresa_asignada = '{$_COOKIE["empresa_asignada"]}'";
 	
 	$consulta.="
 	
