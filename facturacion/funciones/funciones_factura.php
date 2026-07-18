@@ -33,11 +33,13 @@
 		1 as cantidad,
 		
 		'E48' as clave_unidad,
+		'Unidad de servicio' as nombre_unidades,
 		'78111804'	 AS clave_sat,
 		#CONCAT('VIAJE DESDE ', origen, ' A ', destino)  AS descripcion,
-		CONCAT('SERVICIO DE TAXI LOCAL AIFA, FOLIO ', id_boletos)  AS descripcion,
+		CONCAT('SERVICIO DE TAXI LOCAL AIFA, DESTINO: ', destino, ' FOLIO ', id_boletos)  AS descripcion,
 		'0.000000'  AS tasa_iva,
 		total    AS precio,
+		0    AS cant_descuento,
 		0 AS iva
 		
 		FROM boletos
@@ -65,12 +67,14 @@
 		
 	}	
 	
-	function copyVenta($link,$folios, $fecha){
+	function copyVenta($link,$folios, $fecha, $total){
 		$respuesta = [];
 		
 		$consulta = "SELECT * FROM boletos 
 		LEFT JOIN facturas USING(id_facturas)
-		WHERE id_boletos IN ($folios) AND DATE(fecha_boletos) = '$fecha'
+		WHERE id_boletos IN ($folios) 
+		AND DATE(fecha_boletos) = '$fecha'
+		AND boletos.total = '{$total}'
 		
 		";
 		$respuesta["consulta"] = $consulta;

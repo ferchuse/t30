@@ -130,7 +130,7 @@
 		
 		var active_button;
 		var myWidget = cloudinary.createUploadWidget({
-			cloudName: 'dynskweb4', 
+			cloudName: 'glifomedia', 
 			cropping: false,
 			language: "es", 
 			text: {
@@ -187,7 +187,7 @@
 			}, 
 			default_source: 'local',
 			sources: [ 'local', 'camera','url', ],
-		uploadPreset: 'vwqzgg3d'}, 
+		uploadPreset: 'taquillat30'}, 
 		(error, result) => { 
 			
 			if (!error && result && result.event === "success") { 

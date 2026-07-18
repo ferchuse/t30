@@ -21,7 +21,9 @@
 	
 	$productos = copyProductos($link, $_GET["folio"]);
 	
-	$venta = copyVenta($link, $_GET["folio"], $_GET["fecha"]);
+	$venta = copyVenta($link, $_GET["folio"], $_GET["fecha"], $_GET["total"]);
+	
+	
 	
 	//NOTA: Una vez emitida la factura ya no podrás corregir ningún dato, por favor asegúrate que estén correctos antes de dar el click para emitir la factura.
 	// print_r($venta);
@@ -51,6 +53,19 @@
 	</head>
 	<body>
 		<?php
+		
+			if(count($venta["fila"]) == 0){
+				
+				
+				
+				echo "<div class='alert alert-danger text-center h4'>No se encontró el folio {$_GET["folio"]} con Fecha {$_GET["fecha"]} y Total {$_GET["total"]} , verifica la información.
+				<a href='index.php'>Regresar<a>
+				</div>";
+				
+				
+				exit();
+			}
+			
 			if($venta["fila"]["id_facturas"] != "" && $venta["fila"]["cancelada"] == 0){
 				
 				echo "<div class='alert alert-danger text-center h4'>
@@ -215,7 +230,7 @@
 										
 										
 										<td>
-											<textarea <?php echo isset($_GET["id_emisores"]) ? "" : "readonly"?> required cols="20"  rows="2"  name="descripcion[]" class="form-control conceptos "><?php echo $producto["descripcion"]?></textarea>
+											<textarea <?php echo isset($_GET["id_emisores"]) ? "" : "readonly"?> required cols="20"  rows="4"  name="descripcion[]" class="form-control conceptos "><?php echo $producto["descripcion"]?></textarea>
 										</td>
 										<td>
 											<input  readonly type="number" min="0" step="any" name="precio_unitario[]" class="form-control conceptos precio_sin_iva text-right" value="<?php echo Round($producto["precio"], 2)?>">
@@ -225,6 +240,7 @@
 										</td>
 										<td class="d-none">
 											<input  readonly  name="clave_unidad[]" class="clave_unidad conceptos " value="<?php echo $producto["clave_unidad"]?>">
+											<input  readonly  name="nombre_unidades[]" class="nombre_unidades conceptos " value="<?php echo $producto["nombre_unidades"]?>">
 											
 											
 											<input  readonly type="number" min="0" step="any"  name="clave_producto[]" class=" clave_sat conceptos " value="<?php echo $producto["clave_sat"]?>">
@@ -252,8 +268,13 @@
 						
 					</table>
 				</div>
+					<label class="<?php echo !isset($_GET["modo_pruebas"]) ? " d-none " : ""?>">
+						<input type="checkbox" name="modo_pruebas" value="SI"   > MODO PRUEBAS
+					</label>
+					
 				<div class="row">
 					
+				
 					<div class="col-sm-3 offset-sm-7 text-right">
 						<label>SUBTOTAL:</label>
 					</div>
@@ -294,11 +315,7 @@
 					</div>
 				</div>
 				
-				<?php if(in_array($_SERVER["SERVER_NAME"], array("localhost", "taxi_demo.glifo.mx"))){?>
-					<label class="">
-						<input type="checkbox" checked name="modo_pruebas" value="SI"   > MODO PRUEBAS
-					</label>
-					<?php }?>
+				<hr class="mb-5">
 				<div id="mensaje_error" class="alert alert-danger d-none">
 					
 				</div>
@@ -329,7 +346,7 @@
 			
 			
 			
-			<script src="js/facturas_nueva.js?v=<?= date("y-m-d-h-i-s")?>"></script>
+			<script src="js/nueva_factura.js?v=<?= date("y-m-d-h-i-s")?>"></script>
 			
 			
 		</body>

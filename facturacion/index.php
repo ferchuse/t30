@@ -26,23 +26,29 @@
 		
 		
 		<div class="container">
-			
 			<div class="row">
-				<div class="col-6 ">
-					<div class="col text-center">
-						<img  class="w-50 img-fluid" src="../taquilla/img/logo.png">
-					</div>
+				<div class="col text-center">
+					<img class="w-25" class="img-fluid" src="../taquilla/img/logo.png">
 				</div>
-				<div class="col-6">
-					<h2>Ingresa los datos del Boleto: </h2>
-					<form id="form_buscar" action="encuesta.php">
+			</div>
+		
+			<div class="row">
+				
+				<div class="col-12">
+					<h2>Captura los datos del boleto: </h2>
+					<form id="form_buscar" action="nueva_factura.php">
+						<div class="form-group">
+							<label>Fecha:</label>
+							<input class="form-control text-center" required id="fecha" name="fecha" type="date"  value="<?php echo date("Y-m-d")?>">
+						</div>
 						<div class="form-group">
 							<label>Folio:</label>
 							<input class="form-control text-center" id="folio" name="folio" type="number" required>
 						</div>
+						
 						<div class="form-group">
-							<label>Fecha:</label>
-							<input class="form-control text-center" required id="fecha" name="fecha" type="date"  value="<?php echo date("Y-m-d")?>">
+							<label>Monto:</label>
+							<input class="form-control text-center" required id="total" name="total" type="number" step="any" >
 						</div>
 						
 						<button type="submit"  class="btn btn-success btn-lg float-right next">
