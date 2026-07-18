@@ -92,7 +92,7 @@
 		$respuesta.= $fila_venta["nombre_empresas"]. "\n\n";
 		$respuesta.=  "\x1b"."E".chr(0); // Not Bold	
 		
-		$respuesta.= convertBmpToEscpos("../../../img/logo_200.jpg?v=123");
+		$respuesta.= convertBmpToEscpos("../../../img/logo_200.jpg");
 		$respuesta.=  "\x1b"."@";
 		$respuesta.=$leftAlign ;
 		// $respuesta.= "Whatsapp: 56 14 61 17 66 \n\n";
