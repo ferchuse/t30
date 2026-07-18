@@ -2,8 +2,8 @@
     "theme_color": "#003D7D",
     "background_color": "#003D7D",
     "display": "standalone",
-    "scope": "/taquilla",
-    "start_url": "/taquilla",
+    "scope": "/app/taquilla",
+    "start_url": "/app/taquilla",
     "name": "T30",
     "short_name": "T30",
     "icons": [
@@ -16,7 +16,6 @@
             "src": "img/icons/icon-256x256.png",
             "sizes": "256x256",
             "type": "image/png"
-        },
-       
+        }
     ]
 }
