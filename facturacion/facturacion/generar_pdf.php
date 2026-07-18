@@ -68,31 +68,25 @@
 	
 	
 	function get_factura_html($datos_factura){
+		// $url = URL_SISTEMA."facturacion/facturacion/plantilla_pdf.php";
 		
 		if($_SERVER["SERVER_NAME"] == "localhost"){
-			$url = $_SERVER['SERVER_NAME']."/facturacion/facturacion/plantilla_pdf.php";
+			$url = URL_SISTEMA."facturacion/facturacion/plantilla_pdf.php";
 			
-		}
-		else{
-			$url = "https://{$_SERVER['SERVER_NAME']}/facturacion/facturacion/plantilla_pdf.php";
+			$ch = curl_init(); //ajax
+			curl_setopt($ch, CURLOPT_URL, $url); //url
+			curl_setopt($ch, CURLOPT_POST, true); // method
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); // 
+			curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($datos_factura)) ; // data
 			
-		}
+			$result = curl_exec($ch);
+			if($result === FALSE){
+				$respuesta["curl_estatus"] = "error";
+				$respuesta["curl_mensaje"] = 'Curl failed: '. curl_error($ch);
+			}
+			curl_close($ch);
+			return $result;
+		}		
 		
-		$ch = curl_init(); //ajax
-		curl_setopt($ch, CURLOPT_URL, $url); //url
-		curl_setopt($ch, CURLOPT_POST, true); // method
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); // 
-		curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($datos_factura)) ; // data
-		
-		$result = curl_exec($ch);
-		if($result === FALSE){
-			$respuesta["curl_estatus"] = "error";
-			$respuesta["curl_mensaje"] = 'Curl failed: '. curl_error($ch);
-		}
-		curl_close($ch);
-		return $result;
-	}		
-	
-	echo json_encode($respuesta);
-	
-?>
+		echo json_encode($respuesta);
+	?>	
