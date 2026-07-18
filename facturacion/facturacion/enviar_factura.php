@@ -1,6 +1,6 @@
 <?php
 	require_once(__DIR__ . '/../../lib/sendinblue/vendor/autoload.php');
-	require_once(__DIR__ . '/../..../taquilla/conexi.php');
+	require_once(__DIR__ . '/../../../taquilla/conexi.php');
 	
 	$link = Conectarse();
 	

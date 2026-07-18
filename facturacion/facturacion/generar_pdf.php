@@ -2,7 +2,7 @@
 	header("Content-Type: application/json");
 	// require 'vendor/autoload.php';
 	require '../lib/dompdf/vendor/autoload.php';
-	include_once("../conexi.php");
+	include_once("../../taquilla/conexi.php");
 	
 	use Dompdf\Dompdf; 
 	
