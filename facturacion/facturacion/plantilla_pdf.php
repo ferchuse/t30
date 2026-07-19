@@ -197,7 +197,9 @@
 					<br>
 					<br>
 					<?php 
-						echo URL_SISTEMA."taquilla/paginas/facturacion/consultas/logos/".rawurlencode($factura["url_logo"]);
+						$url_logo = URL_SISTEMA."taquilla/paginas/facturacion/consultas/logos/".rawurlencode($factura["url_logo"]);
+						
+						echo "<img alt='Logo' src='$url_logo' class='img-responsive'>";
 					?>
 					
 				</div>  
