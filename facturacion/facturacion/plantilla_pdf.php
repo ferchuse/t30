@@ -408,8 +408,8 @@
 				}
 			?>
 			
-			
-		 <footer <?php // if(count($conceptos)  < 7 ) echo " class='footer'";?> >
+			Footer
+			<footer <?php // if(count($conceptos)  < 7 ) echo " class='footer'";?> >
 				
 				<div class="row">
 					<div class="col-xs-2">
@@ -425,9 +425,7 @@
 					</div>
 				</div>
 				<h6 class="text-center tiny">Este documento es una representación impresa de un CFDI</h6>
-				<pre hidden>
-					<?php //echo var_dump($_POST);?>
-				</pre>
+				
 			</footer>
 			
 		</div>
