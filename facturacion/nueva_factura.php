@@ -23,10 +23,14 @@
 	
 	$venta = copyVenta($link, $_GET["folio"], $_GET["fecha"], $_GET["total"]);
 	
+	//Si ya tiene factura trear los datos de la factura
+	if($venta["fila"]["id_facturas"] != ""){
+		$factura = getFactura($venta["fila"]["id_facturas"]);
+	}
 	
 	
 	//NOTA: Una vez emitida la factura ya no podrás corregir ningún dato, por favor asegúrate que estén correctos antes de dar el click para emitir la factura.
-	// print_r($venta);
+	// print_r($factura);
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -53,7 +57,7 @@
 	</head>
 	<body>
 		<?php
-		
+			
 			if(count($venta["fila"]) == 0){
 				
 				
@@ -63,17 +67,32 @@
 				</div>";
 				
 				
+				
+				
 				exit();
 			}
 			
 			if($venta["fila"]["id_facturas"] != "" && $venta["fila"]["cancelada"] == 0){
 				
-				echo "<div class='alert alert-danger text-center h4'>
-				Este ticket ya ha sido facturado previamente.
-				<a href='index.php'>Regresar<a>
-				</div>";
+				
 				
 			?>
+			
+			<div class="container mt-4">
+				
+				<div class='alert alert-danger text-center h4'>
+					Este ticket ya ha sido facturado previamente.
+					<a href='index.php'>Regresar</a>
+				</div>
+				<div id="descargar" class="alert alert-success text-center">
+					<a target="_blank" href="<?php echo URL_SISTEMA."facturacion/facturacion/".$factura["url_pdf"]?>" class="btn btn-success" ">
+						<i class="fas fa-file-pdf"></i> Descargar PDF
+					</a>
+					<a target="_blank" href="<?php echo URL_SISTEMA."facturacion/facturacion/".$factura["archivo_xml"]?>"  class="btn btn-info"  >
+						<i class="fas fa-code"></i> Descargar XML 
+					</a>
+				</div>
+			</div>
 			<?php
 				exit();
 			}
@@ -144,210 +163,210 @@
 										<option value="601">601	General de Ley Personas Morales</option>
 										<option value="603">603	Personas Morales con Fines no Lucrativos</option>
 										<option  value="605">605	Sueldos y Salarios e Ingresos Asimilados a Salarios</option>
-									<option value="606">606	Arrendamiento</option>
-									<option  value="607">607	Régimen de Enajenación o Adquisición de Bienes</option>
-									<option   value="608">608	Demás ingresos</option>
-									<option  value="609">609	Consolidación</option>
-									<option  value="610">610	Residentes en el Extranjero sin Establecimiento Permanente en México</option>
-									<option  value="611">611	Ingresos por Dividendos (socios y accionistas)</option>
-									<option  value="612">612	Personas Físicas con Actividades Empresariales y Profesionales</option>
-									<option  value="614">614	Ingresos por intereses</option>
-									<option  value="615">615	Régimen de los ingresos por obtención de premios</option>
-									<option  value="616">616	Sin obligaciones fiscales</option>
-									<option  value="620">620	Sociedades Cooperativas de Producción que optan por diferir sus ingresos</option>
-									<option  value="621">621	Incorporación Fiscal</option>
-									<option  value="622">622	Actividades Agrícolas, Ganaderas, Silvícolas y Pesqueras</option>
-									<option  value="623">623	Opcional para Grupos de Sociedades</option>
-									
-									<option  value="624">624	Coordinados</option>
-									<option  value="625">625 – Régimen de las Actividades Empresariales con ingresos a través de Plataformas Tecnológicas</option>
-									<option value="626">626 Regimen Simplificado de Confianza</option>
-									<option  value="628">628	Hidrocarburos</option>
-									<option  value="629">629	De los Regímenes Fiscales Preferentes y de las Empresas Multinacionales</option>
-									<option  value="630">630	Enajenación de acciones en bolsa de valores</option>
-								</select>
-							</div>
-							
-							<div class="form-group ">
-								<label class="control-label" for="forma_pago">Forma de Pago:</label>
-								<select required id="forma_pago" name="forma_pago" class="form-control" >
-									<option value="">Seleccione...</option>
-									<option <?php echo $venta["fila"]["forma_pago"] == "Efectivo" ? "selected" : ""?> value="01" >01 Efectivo</option>
-									
-									<option value="03" >03 Transferencia electrónica de fondos</option>
-									<option value="04">04 Tarjeta de crédito</option>
-									<option <?php echo $venta["fila"]["forma_pago"] == "Tarjeta" ? "selected" : ""?> value="28" >28 Tarjeta de débito</option>
-									<option value="29" >29 Tarjeta de servicios</option>
-									<option  value="31" >31 Intermediario de Pagos</option>
-								</select>
-							</div>
-							
-							<div class="form-group">
-								<label for="enviar_correo d-none">
-									<input type="checkbox" id="enviar_correo" checked class="d-none"> Correo: 
-								</label>
+										<option value="606">606	Arrendamiento</option>
+										<option  value="607">607	Régimen de Enajenación o Adquisición de Bienes</option>
+										<option   value="608">608	Demás ingresos</option>
+										<option  value="609">609	Consolidación</option>
+										<option  value="610">610	Residentes en el Extranjero sin Establecimiento Permanente en México</option>
+										<option  value="611">611	Ingresos por Dividendos (socios y accionistas)</option>
+										<option  value="612">612	Personas Físicas con Actividades Empresariales y Profesionales</option>
+										<option  value="614">614	Ingresos por intereses</option>
+										<option  value="615">615	Régimen de los ingresos por obtención de premios</option>
+										<option  value="616">616	Sin obligaciones fiscales</option>
+										<option  value="620">620	Sociedades Cooperativas de Producción que optan por diferir sus ingresos</option>
+										<option  value="621">621	Incorporación Fiscal</option>
+										<option  value="622">622	Actividades Agrícolas, Ganaderas, Silvícolas y Pesqueras</option>
+										<option  value="623">623	Opcional para Grupos de Sociedades</option>
+										
+										<option  value="624">624	Coordinados</option>
+										<option  value="625">625 – Régimen de las Actividades Empresariales con ingresos a través de Plataformas Tecnológicas</option>
+										<option value="626">626 Regimen Simplificado de Confianza</option>
+										<option  value="628">628	Hidrocarburos</option>
+										<option  value="629">629	De los Regímenes Fiscales Preferentes y de las Empresas Multinacionales</option>
+										<option  value="630">630	Enajenación de acciones en bolsa de valores</option>
+									</select>
+								</div>
 								
-								<input type="email" name="correo_clientes" id="correo_clientes" class="form-control minus"  required value=""> 
+								<div class="form-group ">
+									<label class="control-label" for="forma_pago">Forma de Pago:</label>
+									<select required id="forma_pago" name="forma_pago" class="form-control" >
+										<option value="">Seleccione...</option>
+										<option <?php echo $venta["fila"]["forma_pago"] == "Efectivo" ? "selected" : ""?> value="01" >01 Efectivo</option>
+										
+										<option value="03" >03 Transferencia electrónica de fondos</option>
+										<option value="04">04 Tarjeta de crédito</option>
+										<option <?php echo $venta["fila"]["forma_pago"] == "Tarjeta" ? "selected" : ""?> value="28" >28 Tarjeta de débito</option>
+										<option value="29" >29 Tarjeta de servicios</option>
+										<option  value="31" >31 Intermediario de Pagos</option>
+									</select>
+								</div>
+								
+								<div class="form-group">
+									<label for="enviar_correo d-none">
+										<input type="checkbox" id="enviar_correo" checked class="d-none"> Correo: 
+									</label>
+									
+									<input type="email" name="correo_clientes" id="correo_clientes" class="form-control minus"  required value=""> 
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-			
-			
-			
-			<div class="table-responsive " >
-				<table class="table table-bordered">
-					<thead>
-						<tr>
-							<th>CANTIDAD</th>
-							<th>DESCRIPCIÓN</th>
-							<th>PRECIO</th>
-							<th>IMPORTE</th>
-						</tr>
-					</thead>
-					<tbody>
-						
-						<?php 
-							$traslados = 0;
-							$subtotal = 0;
-							$partida = 0;
-							$i = 0;
+				
+				
+				
+				<div class="table-responsive " >
+					<table class="table table-bordered">
+						<thead>
+							<tr>
+								<th>CANTIDAD</th>
+								<th>DESCRIPCIÓN</th>
+								<th>PRECIO</th>
+								<th>IMPORTE</th>
+							</tr>
+						</thead>
+						<tbody>
 							
-							foreach ($productos["productos"] as $partida => $producto){
-								$iva = Round($producto["precio"] * $producto["tasa_iva"], 2); 
-								$importe = Round($producto["precio"] * $producto["cantidad"], 2);
-								$subtotal+= $importe;
-								$traslados+= $iva;
+							<?php 
+								$traslados = 0;
+								$subtotal = 0;
+								$partida = 0;
+								$i = 0;
 								
-								if($producto["precio"] > 0){
+								foreach ($productos["productos"] as $partida => $producto){
+									$iva = Round($producto["precio"] * $producto["tasa_iva"], 2); 
+									$importe = Round($producto["precio"] * $producto["cantidad"], 2);
+									$subtotal+= $importe;
+									$traslados+= $iva;
 									
-								?>
-								<tr>
-									<td>
+									if($producto["precio"] > 0){
 										
-										<input  readonly type="number" min="0" step="any"  name="cantidad[]" class="form-control cantidad conceptos text-right" value="<?php echo $producto["cantidad"]?>">
-										
-										
+									?>
+									<tr>
 										<td>
-											<textarea <?php echo isset($_GET["id_emisores"]) ? "" : "readonly"?> required cols="20"  rows="4"  name="descripcion[]" class="form-control conceptos "><?php echo $producto["descripcion"]?></textarea>
-										</td>
-										<td>
-											<input  readonly type="number" min="0" step="any" name="precio_unitario[]" class="form-control conceptos precio_sin_iva text-right" value="<?php echo Round($producto["precio"], 2)?>">
-										</td>
-										<td>
-											<input readonly step="any"  name="importe[]" class="form-control importe conceptos text-right" value="<?php echo $importe;?>">
-										</td>
-										<td class="d-none">
-											<input  readonly  name="clave_unidad[]" class="clave_unidad conceptos " value="<?php echo $producto["clave_unidad"]?>">
-											<input  readonly  name="nombre_unidades[]" class="nombre_unidades conceptos " value="<?php echo $producto["nombre_unidades"]?>">
+											
+											<input  readonly type="number" min="0" step="any"  name="cantidad[]" class="form-control cantidad conceptos text-right" value="<?php echo $producto["cantidad"]?>">
 											
 											
-											<input  readonly type="number" min="0" step="any"  name="clave_producto[]" class=" clave_sat conceptos " value="<?php echo $producto["clave_sat"]?>">
-											
-											
-											
-											<input name="tipo_impuesto[<?php echo $i;?>][]" class="tipo_impuesto" value="Traslado">
-											<input name="impuesto[<?php echo $i;?>][]" class="impuesto" value="002">
-											<input name="base[<?php echo $i;?>][]" class="base" value="<?php echo $importe - $producto["cant_descuento"];?>">
-											<input name="tasa[<?php echo $i;?>][]" class="tasa" value="0.000000">
-											<input name="tipo_factor[<?php echo $i;?>][]" class="tipo_factor"  value="Exento">
-											<input name="impuesto_importe[<?php echo $i;?>][]" step="any"  class="impuesto_importe" value="<?php echo $iva;?>">
-										</td>
-									</tr>
-									<?php
-									}
-								?>
+											<td>
+												<textarea <?php echo isset($_GET["id_emisores"]) ? "" : "readonly"?> required cols="20"  rows="4"  name="descripcion[]" class="form-control conceptos "><?php echo $producto["descripcion"]?></textarea>
+											</td>
+											<td>
+												<input  readonly type="number" min="0" step="any" name="precio_unitario[]" class="form-control conceptos precio_sin_iva text-right" value="<?php echo Round($producto["precio"], 2)?>">
+											</td>
+											<td>
+												<input readonly step="any"  name="importe[]" class="form-control importe conceptos text-right" value="<?php echo $importe;?>">
+											</td>
+											<td class="d-none">
+												<input  readonly  name="clave_unidad[]" class="clave_unidad conceptos " value="<?php echo $producto["clave_unidad"]?>">
+												<input  readonly  name="nombre_unidades[]" class="nombre_unidades conceptos " value="<?php echo $producto["nombre_unidades"]?>">
+												
+												
+												<input  readonly type="number" min="0" step="any"  name="clave_producto[]" class=" clave_sat conceptos " value="<?php echo $producto["clave_sat"]?>">
+												
+												
+												
+												<input name="tipo_impuesto[<?php echo $i;?>][]" class="tipo_impuesto" value="Traslado">
+												<input name="impuesto[<?php echo $i;?>][]" class="impuesto" value="002">
+												<input name="base[<?php echo $i;?>][]" class="base" value="<?php echo $importe - $producto["cant_descuento"];?>">
+												<input name="tasa[<?php echo $i;?>][]" class="tasa" value="0.000000">
+												<input name="tipo_factor[<?php echo $i;?>][]" class="tipo_factor"  value="Exento">
+												<input name="impuesto_importe[<?php echo $i;?>][]" step="any"  class="impuesto_importe" value="<?php echo $iva;?>">
+											</td>
+										</tr>
+										<?php
+										}
+									?>
+									
+								</tbody>
 								
-							</tbody>
+								<?php
+									$i++;						
+								}
+							?>
 							
-							<?php
-								$i++;						
-							}
-						?>
-						
-					</table>
-				</div>
+						</table>
+					</div>
 					<label class="<?php echo !isset($_GET["modo_pruebas"]) ? " d-none " : ""?>">
 						<input type="checkbox" name="modo_pruebas" value="SI"   > MODO PRUEBAS
 					</label>
 					
-				<div class="row">
+					<div class="row">
+						
+						
+						<div class="col-sm-3 offset-sm-7 text-right">
+							<label>SUBTOTAL:</label>
+						</div>
+						<div class="col-sm-2">
+							<input readonly  type="number" step="any" class="form-control text-right" name="subtotal" id="subtotal" value="<?php echo Round($subtotal, 2);?>">
+						</div>
+					</div>
+					<div class="row d-none">
+						<div class="col-sm-2 offset-sm-7 text-right">
+							<label>DESCUENTO:</label>
+						</div>
+						<div class="col-sm-1">
+							<input  type="number" step="any" class="form-control" name="descuento_total" id="descuento_total">
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-3 offset-sm-7 text-right">
+							<label>TRASLADADOS:</label> 
+						</div>
+						<div class="col-sm-2">
+							<input  readonly type="number" step="any" class="form-control text-right" name="total_traslados" id="total_traslados" value="<?php echo $traslados?>">
+						</div>
+					</div>
+					<div class="row d-none">
+						<div class="col-sm-3 offset-sm-7 text-right ">
+							<label>RETENIDOS:</label>
+						</div>
+						<div class="col-sm-2">
+							<input readonly  type="number" step="any" class="form-control" name="total_retenciones" id="total_retenciones">
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-3 offset-sm-7 text-right">
+							<label>TOTAL:</label>
+						</div>
+						<div class="col-sm-2">
+							<input  readonly type="number"  step="any" class="form-control text-right" name="total_pagos" id="total" value="<?php echo $subtotal + $traslados;?>">
+						</div>
+					</div>
 					
-				
-					<div class="col-sm-3 offset-sm-7 text-right">
-						<label>SUBTOTAL:</label>
+					<hr class="mb-5">
+					<div id="mensaje_error" class="alert alert-danger d-none">
+						
 					</div>
-					<div class="col-sm-2">
-						<input readonly  type="number" step="any" class="form-control text-right" name="subtotal" id="subtotal" value="<?php echo Round($subtotal, 2);?>">
+					<div id="mensaje_timbrado" class="alert alert-success d-none">
+						Facturando <i class="fa fa-spinner fa-spin"></i>
 					</div>
-				</div>
-				<div class="row d-none">
-					<div class="col-sm-2 offset-sm-7 text-right">
-						<label>DESCUENTO:</label>
+					<div id="mensaje_pdf" class="alert alert-success d-none">
+						Generando PDF <i class="fa fa-spinner fa-spin"></i>
 					</div>
-					<div class="col-sm-1">
-						<input  type="number" step="any" class="form-control" name="descuento_total" id="descuento_total">
+					<div id="mensaje_correo" class="alert alert-success d-none">
+						Enviando Correo <i class="fa fa-spinner fa-spin"></i>
 					</div>
-				</div>
-				<div class="row">
-					<div class="col-sm-3 offset-sm-7 text-right">
-						<label>TRASLADADOS:</label> 
+					<div id="descargar" class="alert alert-success d-none">
+						<a target="_blank" href="" class="btn btn-success" id="url_pdf"><i class="fas fa-file-pdf"></i> Descargar PDF</a>
+						<a target="_blank" href=""  class="btn btn-info"  id="url_xml"><i class="fas fa-code"></i> Descargar XML </a>
 					</div>
-					<div class="col-sm-2">
-						<input  readonly type="number" step="any" class="form-control text-right" name="total_traslados" id="total_traslados" value="<?php echo $traslados?>">
-					</div>
-				</div>
-				<div class="row d-none">
-					<div class="col-sm-3 offset-sm-7 text-right ">
-						<label>RETENIDOS:</label>
-					</div>
-					<div class="col-sm-2">
-						<input readonly  type="number" step="any" class="form-control" name="total_retenciones" id="total_retenciones">
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-sm-3 offset-sm-7 text-right">
-						<label>TOTAL:</label>
-					</div>
-					<div class="col-sm-2">
-						<input  readonly type="number"  step="any" class="form-control text-right" name="total_pagos" id="total" value="<?php echo $subtotal + $traslados;?>">
-					</div>
-				</div>
-				
-				<hr class="mb-5">
-				<div id="mensaje_error" class="alert alert-danger d-none">
 					
-				</div>
-				<div id="mensaje_timbrado" class="alert alert-success d-none">
-					Facturando <i class="fa fa-spinner fa-spin"></i>
-				</div>
-				<div id="mensaje_pdf" class="alert alert-success d-none">
-					Generando PDF <i class="fa fa-spinner fa-spin"></i>
-				</div>
-				<div id="mensaje_correo" class="alert alert-success d-none">
-					Enviando Correo <i class="fa fa-spinner fa-spin"></i>
-				</div>
-				<div id="descargar" class="alert alert-success d-none">
-					<a target="_blank" href="" class="btn btn-success" id="url_pdf"><i class="fas fa-file-pdf"></i> Descargar PDF</a>
-					<a target="_blank" href=""  class="btn btn-info"  id="url_xml"><i class="fas fa-code"></i> Descargar XML </a>
-				</div>
-				
-				<div class="row">
-					
-					<div class="col-sm-6">
-						<button type="submit" id="timbrado_sw"  class="btn btn-primary btn-lg float-right fixed-bottom">
-							Facturar <i class="fa fa-arrow-right"></i>
-						</button>
+					<div class="row">
+						
+						<div class="col-sm-6">
+							<button type="submit" id="timbrado_sw"  class="btn btn-primary btn-lg float-right fixed-bottom">
+								Facturar <i class="fa fa-arrow-right"></i>
+							</button>
+						</div>
 					</div>
-				</div>
+					
+				</form>
 				
-			</form>
-			
-			
-			
-			<script src="js/nueva_factura.js?v=<?= date("y-m-d-h-i-s")?>"></script>
-			
-			
-		</body>
-	</html>																		
+				
+				
+				<script src="js/nueva_factura.js?v=<?= date("y-m-d-h-i-s")?>"></script>
+				
+				
+			</body>
+		</html>																														

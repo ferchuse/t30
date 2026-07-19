@@ -20,6 +20,29 @@
 	}	
 	
 	
+	function getFactura($id){
+		global $link;
+		$respuesta = [];
+		
+		$consulta = "SELECT * FROM facturas 
+		WHERE id_facturas = '{$id}'";
+		
+		$result = mysqli_query($link,$consulta) ;
+		
+		if(!$result){
+			die( mysqli_error($link));
+			$respuesta["error"] =  mysqli_error($link);
+		}
+		else{
+			while($fila = mysqli_fetch_assoc($result)){
+				$respuesta = $fila;
+			}
+		}
+		return $respuesta;
+		
+	}	
+	
+	
 	
 	
 	
