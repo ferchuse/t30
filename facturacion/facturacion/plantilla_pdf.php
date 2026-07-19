@@ -208,7 +208,7 @@
 						<h6>Emisor: </h6> <a href="#"><?php echo $factura["razon_social_emisores"];?></a> <br>
 						<p>
 							RFC: <?php echo $factura["rfc_emisores"];?>  <br>
-							Régimen:  <?php echo $factura["regimen_emisores"];?><br>
+							Régimen:  <?php echo $cat_regimen[$factura["regimen_emisores"]];?><br>
 							Certificado: <?php echo $factura["representacion_impresa_certificado_no"];?><br>
 						</p>
 					</div>
@@ -409,7 +409,7 @@
 			?>
 			
 			
-			<footer <?php if(count($conceptos)  < 7 ) echo " class='footer'";?> >
+		 <footer <?php // if(count($conceptos)  < 7 ) echo " class='footer'";?> >
 				
 				<div class="row">
 					<div class="col-xs-2">
@@ -423,9 +423,6 @@
 							<?php echo $_POST["representacion_impresa_cadena"];?> 
 						</div>
 					</div>
-					
-					
-					
 				</div>
 				<h6 class="text-center tiny">Este documento es una representación impresa de un CFDI</h6>
 				<pre hidden>
