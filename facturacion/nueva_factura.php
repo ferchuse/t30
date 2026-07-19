@@ -249,7 +249,7 @@
 											
 											
 											<td>
-												<textarea <?php echo isset($_GET["id_emisores"]) ? "" : "readonly"?> required cols="20"  rows="4"  name="descripcion[]" class="form-control conceptos "><?php echo $producto["descripcion"]?></textarea>
+												<textarea readonly <?php echo isset($_GET["id_emisores"]) ? "" : "readonly"?> required cols="20"  rows="4"  name="descripcion[]" class="form-control conceptos "><?php echo $producto["descripcion"]?></textarea>
 											</td>
 											<td>
 												<input  readonly type="number" min="0" step="any" name="precio_unitario[]" class="form-control conceptos precio_sin_iva text-right" value="<?php echo Round($producto["precio"], 2)?>">

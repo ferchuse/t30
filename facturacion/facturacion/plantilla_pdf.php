@@ -3,7 +3,7 @@
 	header("Cache-Control: post-check=0, pre-check=0", false);
 	header("Pragma: no-cache");
 	include("../../taquilla/conexi.php");
-
+	
 	$link = Conectarse();
 	
 	if(isset($_POST["id_facturas"])){
@@ -197,7 +197,7 @@
 					<br>
 					<br>
 					<?php 
-						echo URL_SISTEMA."taquilla/paginas/facturacion/logos/".$factura["url_logo"];
+						echo URL_SISTEMA."taquilla/paginas/facturacion/consultas/logos/".urlencode($factura["url_logo"]);
 					?>
 					
 				</div>  
@@ -409,30 +409,28 @@
 			
 			<footer <?php if(count($conceptos)  < 7 ) echo " class='footer'";?> >
 				
-				<div class="row"
-				<div class="col-xs-2">
-					<img class="img-responsive" alt="QR" src="<?php echo "https://{$_SERVER['SERVER_NAME']}/facturacion/facturacion/".$_POST["archivo_png"];?>">
-					
-					
-				</div>
-				<div class="col-xs-8">
-					Sello Digital CFDI: <div class="tiny" ><?php echo $_POST["representacion_impresa_sello"];?></div>
-					Sello SAT : <div class="tiny" > <?php echo $_POST["representacion_impresa_selloSAT"];?></div>
-					Cadena original del complemento de certificación digital del SAT:
-					<div class="tiny" > 
-						<?php echo $_POST["representacion_impresa_cadena"];?> 
+				<div class="row">
+					<div class="col-xs-2">
+						<?php echo "<img src='data:image/png;base64,{$factura["qr_code"]}'>"; ?> 
 					</div>
+					<div class="col-xs-8">
+						Sello Digital CFDI: <div class="tiny" ><?php echo $_POST["representacion_impresa_sello"];?></div>
+						Sello SAT : <div class="tiny" > <?php echo $_POST["representacion_impresa_selloSAT"];?></div>
+						Cadena original del complemento de certificación digital del SAT:
+						<div class="tiny" > 
+							<?php echo $_POST["representacion_impresa_cadena"];?> 
+						</div>
+					</div>
+					
+					
+					
 				</div>
-				
-				
-				
-			</div>
-			<h6 class="text-center tiny">Este documento es una representación impresa de un CFDI</h6>
-			<pre hidden>
-				<?php //echo var_dump($_POST);?>
-			</pre>
-		</footer>
-		
-	</div>
-</body>
+				<h6 class="text-center tiny">Este documento es una representación impresa de un CFDI</h6>
+				<pre hidden>
+					<?php //echo var_dump($_POST);?>
+				</pre>
+			</footer>
+			
+		</div>
+	</body>
 </html>						
