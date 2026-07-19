@@ -201,14 +201,12 @@
 						<div class="btn-group">
 							<?php 
 								if($fila["estatus_boletos"] == 'Activo' ){
-									if($fila["id_facturas"] == '' ){
-									?>
-									<a target="" href="../../../facturacion/nueva_factura.php?id_emisores=<?php echo $fila["id_emisores"]?>&folio=<?php echo $fila["id_boletos"]?>&total=<?php echo $fila["total"]?>&fecha=<?php echo date("Y-m-d", strtotime($fila["fecha_boletos"]))?>" class="btn btn-sm btn-primary btn_facturar" title="Facturar"  >
-										<i class="fas fa-qrcode"></i>
-									</a>
-									<?php 
-									}
+									
 								?>
+								<a target="" href="../../../facturacion/nueva_factura.php?id_emisores=<?php echo $fila["id_emisores"]?>&folio=<?php echo $fila["id_boletos"]?>&total=<?php echo $fila["total"]?>&fecha=<?php echo date("Y-m-d", strtotime($fila["fecha_boletos"]))?>" class="btn btn-sm btn-primary btn_facturar" title="Facturar"  >
+									<i class="fas fa-qrcode"></i>
+								</a>
+								
 								<a href="impresion/imprimir_boleto_digital.php?folio=<?php echo $fila["id_boletos"]?>" class="btn btn-sm btn-default" title="Boleto Digital"  >
 									<i class="fas fa-ticket-alt"></i>
 								</a>

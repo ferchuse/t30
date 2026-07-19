@@ -197,19 +197,7 @@
 					<br>
 					<br>
 					<?php 
-						if($_SERVER['SERVER_NAME'] == "localhost"){
-							$url_logo = "http://{$_SERVER['SERVER_NAME']}/taxi_demo/facturacion/img/".$factura["url_logo"];
-						}
-						else{
-							$url_logo = "https://{$_SERVER['SERVER_NAME']}/facturacion/img/".$factura["url_logo"];
-						}
-						
-						
-						if($factura["url_logo"] != ''){
-							echo "<img alt='Logo' src='$url_logo' class='img-responsive'>";
-							// echo "<img alt='Logo' src='logos/logo.jpg' class='img-responsive'>";
-						} 
-						
+						echo URL_SISTEMA."taquilla/paginas/facturacion/logos/".$factura["url_logo"];
 					?>
 					
 				</div>  

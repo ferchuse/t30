@@ -211,7 +211,7 @@
 						<a class="btn btn-default" target="_blank" type="button" title="Ver XML" href="../../../facturacion/facturacion/<?php echo $url_xml; ?>">
 							<i class="fa fa-qrcode"></i>
 						</a>
-						<a class="btn btn-default" target="_blank" title="Descargar"  href="facturacion/generar_pdf.php?descargar=SI&id_facturas=<?= $id_facturas;?>">
+						<a class="btn btn-default" target="_blank" title="Descargar"  href="<?php echo  URL_SISTEMA."facturacion/facturacion/generar_pdf.php?descargar=SI&id_facturas={$id_facturas}";?>">
 							<i class="fa fa-download" ></i>
 						</a>
 						
