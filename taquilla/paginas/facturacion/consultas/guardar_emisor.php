@@ -47,7 +47,7 @@
 		if(!is_dir("certificados"))
         mkdir("certificados",0777,true);
 		
-		$nombre=time()."_".$_FILES["certificado"]["name"];
+		$nombre=time()."_".str_replace(" ","_",$_FILES["certificado"]["name"]);
 		
 		move_uploaded_file($_FILES["certificado"]["tmp_name"],"certificados/".$nombre);
 		
@@ -66,7 +66,7 @@
 		if(!is_dir("certificados"))
         mkdir("certificados",0777,true);
 		
-		$nombre=time()."_".$_FILES["llave"]["name"];
+		$nombre=time()."_".str_replace(" ","_",$_FILES["llave"]["name"]);
 		
 		move_uploaded_file($_FILES["llave"]["tmp_name"],"certificados/".$nombre);
 		
@@ -85,7 +85,7 @@
 		if(!is_dir("logos"))
         mkdir("logos",0777,true);
 		
-		$nombre=time()."_".$_FILES["logo"]["name"];
+		$nombre=time()."_".str_replace(" ","_",$_FILES["logo"]["name"]);
 		
 		move_uploaded_file($_FILES["logo"]["tmp_name"],"logos/".$nombre);
 		
