@@ -197,7 +197,7 @@
 					<br>
 					<br>
 					<?php 
-						echo URL_SISTEMA."taquilla/paginas/facturacion/consultas/logos/".urlencode($factura["url_logo"]);
+						echo URL_SISTEMA."taquilla/paginas/facturacion/consultas/logos/".rawurlencode($factura["url_logo"]);
 					?>
 					
 				</div>  
