@@ -281,7 +281,7 @@
 											id="preview"
 											class="img-thumbnail"
 											style="max-height:150px;"
-											src="<?php echo !empty($emisor['url_logo']) ? $emisor['url_logo'] : ''; ?>">
+											src="<?php echo !empty($dir_logos.$emisor['url_logo']) ? $emisor['url_logo'] : ''; ?>">
 											
 										</div>
 										

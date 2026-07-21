@@ -35,7 +35,7 @@
 	else{
 	?>
 	
-	<ul class="sidebar navbar-nav d-print-none toggled">
+	<ul class="sidebar navbar-nav d-print-none">
 		<li class="nav-item active"> 
 			<a class="nav-link" href="../../index.php">
 				<i class="fas fa-fw fa-home"></i>

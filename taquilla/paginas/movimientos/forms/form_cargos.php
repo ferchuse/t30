@@ -17,7 +17,7 @@
 						<label for="num_eco">Fecha:</label>
 						<input type="date" class="form-control" id="fecha_cargos" name="fecha_cargos" value="<?= date("Y-m-d")?>" required>
 					</div>
-					<div class="form-group">
+					<div class="form-group d-none">
 						<label for="id_empresas">Empresa</label>
 								
 						<input class="form-control" type="text" readonly value="<?php echo $cat_empresas[$_COOKIE["empresa_asignada"]]?>">

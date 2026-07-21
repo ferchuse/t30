@@ -5,7 +5,7 @@
 	include('../../funciones/generar_select.php');
 	include("../../paginas/login/login_check.php");
 	
-	$cat_empresas = [1=> "TAXI DRIVER VIAJE CONFIABLE", 2=> "TAXI DRIVER VIAJE CONFIABLE", ]
+	$cat_empresas = [1=> "", 2=> "", ]
 	
 	
 ?>
