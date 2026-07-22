@@ -75,7 +75,7 @@ function listarBeneficiarios(){
 		if(respuesta.estatus == 'success'){
 			let lista = '';
 			
-			if($("#permiso").val() == "Supervisor"){
+			if($("#permiso").val() == "Supervisor" || "#permiso").val() == "Administrador"){
 				permitido = ""; 
 				}
 			else{

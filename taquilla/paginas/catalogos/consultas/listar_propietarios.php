@@ -55,7 +55,10 @@
 					
 					<td><?php echo "<span class='badge $color'>{$fila["estatus"]}</span>";?></td>
 					<td>
-						<?php if(dame_permiso("propietarios.php", $link) == 'Supervisor'){ ?>
+						<?php
+						if(in_array(dame_permiso("propietarios.php", $link), array('Supervisor', 'Administrador'))){
+						// if(dame_permiso("propietarios.php", $link) == 'Supervisor'){ 
+						?>
 							<button class="btn btn-warning btn_editar" data-id_registro="<?php echo $fila["id_propietarios"];?>">
 								<i class="fas fa-edit"></i>
 							</button>
