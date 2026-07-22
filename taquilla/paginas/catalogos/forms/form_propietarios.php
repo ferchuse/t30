@@ -25,7 +25,7 @@
 							<option value="Inactivo">Inactivo</option>
 						</select>
 					</div> 
-					<div class="form-group">
+					<div class="form-group d-none">
 						<label for="id_empresas">Empresa</label>
 						<input class="form-control" type="text" readonly value="<?php echo $cat_empresas[$_COOKIE["empresa_asignada"]]?>">
 						<input class="form-control" type="hidden" name="id_empresas" value="<?php echo $_COOKIE[
