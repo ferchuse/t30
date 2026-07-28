@@ -35,7 +35,7 @@
 					</ol>
 					<div class="row mb-2">
 						<div class="col-12">
-							<button type="button" class="btn btn-outline-success nuevo" >
+							<button type="button" class="btn btn-success nuevo" >
 								<i class="fas fa-plus"></i> Nuevo
 							</button>
 						</div>
@@ -53,7 +53,7 @@
 							<div class="col-2">
 								<label>Destino:</label>
 								<input type="search" class="form-control" name="destino">
-								</div>
+							</div>
 							<div class="col-2">
 								<button type="submit" class="btn btn-primary " >
 									<i class="fas fa-search"></i> Buscar
@@ -63,33 +63,27 @@
 						</div>
 					</form>
 					
-					<div class="card mb-3">
-						<div class="card-header">
-							<i class="fas fa-table"></i>
-							Lista de <?php echo $nombre_pagina; ?>
-						</div>
-						<div class="card-body">
-							<div class="table-responsive" id="lista_registros">
-								<table class="table table-bordered" width="100%" cellspacing="0"
-								id="tabla_origenes">
-									<thead>
-										<tr>
-											<th class="text-center">Nombre</th>
-											<th class="text-center"></th>
-										</tr>
-									</thead>
-									
-									<tbody id="containerLista">
-										<tr>
-											<td colspan="8"><h3 class="text-center">Cargando...</h3></td>
-										</tr>
-									</tbody>
-								</table>
-								<div id="mensaje"></div>
-							</div>
-						</div>
-						
+					
+					
+					<div class="table-responsive" id="lista_registros">
+						<table class="table table-bordered" width="100%" cellspacing="0"
+						id="tabla_origenes">
+							<thead>
+								<tr>
+									<th class="text-center">Nombre</th>
+									<th class="text-center"></th>
+								</tr>
+							</thead>
+							
+							<tbody id="containerLista">
+								<tr>
+									<td colspan="8"><h3 class="text-center">Cargando...</h3></td>
+								</tr>
+							</tbody>
+						</table>
+						<div id="mensaje"></div>
 					</div>
+					
 				</div>
 				<!-- /.container-fluid -->
 				

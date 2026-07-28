@@ -16,7 +16,7 @@
 						<div class="col-6">
 							<input type="text" hidden class="form-control" id="id_conductores" name="id_conductores">
 							<div class="form-group">
-								<label for="nombre_conductores">Nombre Completo:</label>
+								<label for="nombre_conductores">Nombre Completo: <span class="text-danger">*</span></label>
 								<input type="text" class="form-control" id="nombre_conductores" name="nombre_conductores"  required>
 							</div>
 							<div class="form-group d-none">
@@ -54,6 +54,7 @@
 							
 						</div>
 						<div class="col-6">
+							<h4>Expediente</h4>
 							<div class="form-group ">
 								<button type="button" class="upload_widget btn btn-success" class="">
 									<i class="fas fa-upload"></i> Licencia

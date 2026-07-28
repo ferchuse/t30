@@ -97,9 +97,9 @@ function listarRegistros() {
 		
 		
 		//=========ELIMINAR=========
-		$('.eliminar').click(function () {
+		$('.btn_borrar').click(function () {
 			let boton = $(this);
-			let id_origenes = boton.data('id_origenes');
+			let id = boton.data('id');
 			var fila = boton.closest('tr');
 			
 			alertify.confirm('Confirmacion', '¿Deseas eliminarlo?', eliminar, function () {
@@ -111,9 +111,9 @@ function listarRegistros() {
 					method: 'POST',
 					dataType: 'JSON',
 					data: {
-						tabla: 'origenes',
-						id_campo: 'id_origenes',
-						campo: id_origenes
+						tabla: 'destinos',
+						id_campo: 'id_precio',
+						campo: id
 					}
                     }).done(function (respuesta) {
 					if (respuesta.estatus == 'success') {
@@ -131,7 +131,7 @@ function listarRegistros() {
 		$('.btn_editar').click(function () {
 			var boton = $(this);
 			var icono = boton.find('.fas');
-			var id_registro = boton.data('id_registro');
+			var id = boton.data('id');
 			boton.prop('disabled', true);
 			icono.toggleClass('fa-edit fa-spinner fa-spin');
 			
@@ -141,7 +141,7 @@ function listarRegistros() {
 				dataType: 'JSON',
 				data: {
 					tabla: 'destinos',
-					id_campo: id_registro,
+					id_campo: id,
 					campo: 'id_precio'
 				}
 				}).done(function (respuesta) {
@@ -149,23 +149,23 @@ function listarRegistros() {
 					$.each(respuesta.mensaje[0], function (index, element) {
 						$('#' + index).val(element);
 					});
-					$('.modal-title').text('Editar Conductor');
+					$('.modal-title').text('Editar Destino');
 					$('#modal_edicion').modal('show');
 					} else {
 					//console.log(respuesta.mensaje);
 				}
 				}).always(function () {
 				boton.prop('disabled', false);
-			icono.toggleClass('fa-edit fa-spinner fa-spin');
+				icono.toggleClass('fa-edit fa-spinner fa-spin');
 			});
 		});
 		
 		
 		
-	}).always(function (){
-	boton.prop("disabled", false)
-	icono.toggleClass("fa-search fa-spinner fa-spin");
-	
+		}).always(function (){
+		boton.prop("disabled", false)
+		icono.toggleClass("fa-search fa-spinner fa-spin");
+		
 	});
 }
 

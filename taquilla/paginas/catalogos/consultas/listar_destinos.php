@@ -39,12 +39,18 @@
 					<td><?php echo $fila["destino"];?></td>
 					<td class="text-right">$<?php echo number_format($fila["precio"],2);?></td>
 					<td class="text-right">$<?php echo number_format($fila["precio_ejecutiva"],2);?></td>
-					<td>
-						
-						<button class="btn btn-warning btn_editar" data-id_registro="<?php echo $fila["id_precio"];?>">
-							<i class="fas fa-edit"></i>
-						</button>
-						
+					
+					<td class="text-center"  >
+						<?php if(in_array( dame_permiso("origenes.php", $link) ,array('Supervisor' ,'Escritura',"Administrador" ))){ ?>
+							<button class="btn btn-warning btn_editar" data-id='<?php echo $fila["id_precio"];?>'>
+								<i class="fas fa-pencil-alt"></i>
+							</button>
+							<button class="btn btn-danger btn_borrar" data-id='<?php echo $fila["id_precio"];?>'>
+								<i class="fas fa-trash-alt"></i>
+							</button>
+							<?php 	
+							}
+						?>
 					</td>
 				</tr>
 				
