@@ -17,7 +17,7 @@
 						<label for="fecha_aplicacion">Fecha Aplicación:</label>
 						<input type="date" class="form-control" id="fecha_aplicacion" name="fecha_aplicacion" required value="<?= date("Y-m-d")?>">
 					</div>
-					<div class="form-group">
+					<div class="form-group d-none">
 						<label for="id_empresas">EMPRESA</label>
 							
 						<input class="form-control" type="text" readonly value="<?php echo $cat_empresas[$_COOKIE["empresa_asignada"]]?>">

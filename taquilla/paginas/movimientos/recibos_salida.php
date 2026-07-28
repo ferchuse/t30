@@ -64,12 +64,8 @@
 							<div class="col-sm-2">
 								<label>Año Aplicación:</label>
 								<select class="form-control filtro" id="year" name="year" >
-									<option <?= date("Y") == "2020" ? "selected": "";?> value="2020">2020</option>
-									<option <?= date("Y") == "2021" ? "selected": "";?> value="2021">2021</option>
-									<option <?= date("Y") == "2022" ? "selected": "";?> value="2022">2022</option>
-									<option <?= date("Y") == "2023" ? "selected": "";?> value="2023">2023</option>
-									<option <?= date("Y") == "2024" ? "selected": "";?> value="2024">2024</option>
-									<option <?= date("Y") == "2025" ? "selected": "";?> value="2025">2025</option>
+									
+									<option <?= date("Y") == "2026" ? "selected": "";?> value="2026">2026</option>
 								</select>
 							</div>
 							<div class="col-sm-2">
