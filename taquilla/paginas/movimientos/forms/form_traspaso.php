@@ -90,7 +90,7 @@
 						<div class="col-sm-6">
 							<div class="form-group">
 								<label for="importe_traspaso">Monto:</label>
-								<input type="number" class="form-control text-right" id="importe_traspaso" name="importe_traspaso" required step="any" <?php echo dame_permiso(basename($_SERVER['PHP_SELF']), $link) == "Escritura" ? "readonly" : ""?>>
+								<input type="number" class="form-control text-right" readonly id="importe_traspaso" name="importe_traspaso" required step="any" <?php echo dame_permiso(basename($_SERVER['PHP_SELF']), $link) == "Escritura" ? "readonly" : ""?>>
 							</div> 
 							
 							
