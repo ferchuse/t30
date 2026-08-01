@@ -5,8 +5,9 @@
 	include("../../paginas/login/login_check.php");
 	$link = Conectarse();
 	
-		$cat_empresas = [1=> "TAXI", 2=> "TAXI", ]
+	$cat_empresas = [1=> "TAXI", 2=> "TAXI", ]
 	
+	setlocale(LC_TIME, 'es_MX.UTF-8', 'es_MX', 'Spanish_Mexico', 'Spanish');
 ?>
 
 <!DOCTYPE html>
@@ -52,7 +53,7 @@
 								<select class="form-control" name="mes_cargos">
 									<?php
 										for ($i = 1; $i <= 12; $i++) {
-											$yearMonth = date("Ym", strtotime("2025-$i-01"));
+											$yearMonth = date("Ym", strtotime("2026-$i-01"));
 											$selected = (date("Ym") == $yearMonth) ? "selected" : "";
 											$label = ucfirst(strftime("%B %Y", strtotime("2026-$i-01")));
 											echo "<option $selected value=\"$yearMonth\">$label</option>\n";

@@ -11,6 +11,7 @@
 		$config = require "/home/ieileqp9kdni/public_html/t30mx/app/config.php";
 	}
 	
+	setlocale(LC_TIME, 'es_MX.UTF-8', 'es_MX', 'Spanish_Mexico', 'Spanish');
 	
 	function Conectarse()
 	{
