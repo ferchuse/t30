@@ -5,7 +5,7 @@
 	include("../../paginas/login/login_check.php");
 	$link = Conectarse();
 	
-	$cat_empresas = [1=> "TAXI", 2=> "TAXI", ]
+	$cat_empresas = [1=> "TAXI", 2=> "TAXI", ];
 	
 	setlocale(LC_TIME, 'es_MX.UTF-8', 'es_MX', 'Spanish_Mexico', 'Spanish');
 ?>
