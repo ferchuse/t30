@@ -88,5 +88,11 @@
 		return $result;
 	}		
 	
+	if(isset($_GET["descargar"])){
+		
+		$dompdf->stream(str_replace("timbrados/", "", $datos_factura["url_pdf"]), array('Attachment'=>1)); 
+		// $dompdf->stream("Factura.pdf", array('Attachment'=>1)); 
+	}
+	
 	echo json_encode($respuesta);
 ?>	

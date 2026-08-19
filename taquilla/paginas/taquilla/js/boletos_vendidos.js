@@ -484,7 +484,7 @@ function confirmaCancelacion(event){
 		
 		
 		return $.ajax({
-			url: "boletos_iv/cancelar_boleto.php",
+			url: "consultas/cancelar_boleto.php",
 			method:"POST",
 			dataType:"JSON",
 			data:{
