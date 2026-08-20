@@ -311,7 +311,7 @@
 															<div class="input-group-prepend">
 																<span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>
 															</div>
-															<input type="number" step="any" id="total" name="total" class="form-control text-right" value="0">
+															<input type="number" step="any" id="total" name="total" class="form-control text-right" value="0" readonly>
 														</div>
 													</div>
 													
