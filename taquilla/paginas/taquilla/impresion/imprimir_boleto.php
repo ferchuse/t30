@@ -97,7 +97,7 @@
 		$respuesta.=$leftAlign ;
 		// $respuesta.= "Whatsapp: 56 14 61 17 66 \n\n";
 		
-		$respuesta.= "Reservaciones 24 hrs. {$fila_venta["telefono"]}\n\n";
+		// $respuesta.= "Reservaciones 24 hrs. {$fila_venta["telefono"]}\n\n";
 		$respuesta.= "Folio:        ". $fila_venta["id_boletos"]. "\n";
 		$respuesta.= "Fecha:        " . date("d/m/Y", strtotime($fila_venta["fecha_boletos"]))."\n";
 		$respuesta.= "Hora:         " . date('H:i:s', strtotime($fila_venta["fecha_boletos"]))."\n";
