@@ -154,6 +154,30 @@
 			
 			$respuesta.= "\nREIMPRESION  " .date("d/m/Y H:i:s")."\n";
 			$respuesta.= "Usuario: " .$_COOKIE["nombre_usuarios"]."\n";
+			
+			
+			$consulta_historial = "INSERT INTO boletos_historial
+			(
+			id_boletos,
+			fecha_historial,
+			id_usuarios,
+			campo,
+			valor_anterior,
+			valor_nuevo
+			)
+			VALUES
+			(
+			{$fila_venta["id_boletos"]},
+			NOW(),
+			{$_COOKIE["id_usuarios"]},
+			'reimpresion',
+			'',
+			'ReimpresiÃ³n de boleto'
+			);"
+			
+			$result = mysqli_query($link, $consulta_historial) or die(mysqli_Error($link));
+	
+			
 		}
 		
 		
@@ -220,28 +244,28 @@
 		if ($width > $maxWidth) {
 			$scale = $maxWidth / $width;
 			$newW = $maxWidth;
-			$newH = (int)($height * $scale);
-			$tmp = imagecreatetruecolor($newW, $newH);
-			imagecopyresampled($tmp, $img, 0, 0, 0, 0, $newW, $newH, $width, $height);
-			imagedestroy($img);
-			$img = $tmp;
-			$width = $newW;
-			$height = $newH;
+		$newH = (int)($height * $scale);
+		$tmp = imagecreatetruecolor($newW, $newH);
+		imagecopyresampled($tmp, $img, 0, 0, 0, 0, $newW, $newH, $width, $height);
+		imagedestroy($img);
+		$img = $tmp;
+		$width = $newW;
+		$height = $newH;
 		}
 		
 		// Convertir a monocromo
 		$threshold = 128;
 		for ($y = 0; $y < $height; $y++) {
-			for ($x = 0; $x < $width; $x++) {
-				$rgb = imagecolorat($img, $x, $y);
-				$r = ($rgb >> 16) & 0xFF;
-				$g = ($rgb >> 8) & 0xFF;
-				$b = $rgb & 0xFF;
-				$gray = (int)(0.3 * $r + 0.59 * $g + 0.11 * $b);
-				$color = ($gray < $threshold) ? 0 : 255;
-				$col = imagecolorallocate($img, $color, $color, $color);
-				imagesetpixel($img, $x, $y, $col);
-			}
+		for ($x = 0; $x < $width; $x++) {
+		$rgb = imagecolorat($img, $x, $y);
+		$r = ($rgb >> 16) & 0xFF;
+		$g = ($rgb >> 8) & 0xFF;
+		$b = $rgb & 0xFF;
+		$gray = (int)(0.3 * $r + 0.59 * $g + 0.11 * $b);
+		$color = ($gray < $threshold) ? 0 : 255;
+		$col = imagecolorallocate($img, $color, $color, $color);
+		imagesetpixel($img, $x, $y, $col);
+		}
 		}
 		
 		// Comenzar comandos ESC/POS
@@ -249,28 +273,28 @@
 		$output .= "\x1B\x61\x01"; // Centrado
 		
 		for ($y = 0; $y < $height; $y += 24) {
-			$line = "";
-			for ($x = 0; $x < $width; $x++) {
-				$colBytes = "";
-				for ($b = 0; $b < 24; $b++) {
-					$yy = $y + $b;
-					$bit = 0;
-					if ($yy < $height) {
-						$rgb = imagecolorat($img, $x, $yy);
-						$bit = ($rgb & 0xFF) == 0 ? 1 : 0;
-					}
-					if ($b % 8 == 0) $colBytes .= chr(0);
-					$index = strlen($colBytes) - 1;
-					$current = ord($colBytes[$index]);
-					$current |= $bit << (7 - ($b % 8));
-					$colBytes[$index] = chr($current);
-				}
-				$line .= $colBytes;
-			}
-			$nL = $width & 0xFF;
-			$nH = ($width >> 8) & 0xFF;
-			$output .= "\x1B\x2A" . chr(33) . chr($nL) . chr($nH) . $line;
-			$output .= "\x0A";
+		$line = "";
+		for ($x = 0; $x < $width; $x++) {
+		$colBytes = "";
+		for ($b = 0; $b < 24; $b++) {
+		$yy = $y + $b;
+		$bit = 0;
+		if ($yy < $height) {
+		$rgb = imagecolorat($img, $x, $yy);
+		$bit = ($rgb & 0xFF) == 0 ? 1 : 0;
+		}
+		if ($b % 8 == 0) $colBytes .= chr(0);
+		$index = strlen($colBytes) - 1;
+		$current = ord($colBytes[$index]);
+		$current |= $bit << (7 - ($b % 8));
+		$colBytes[$index] = chr($current);
+		}
+		$line .= $colBytes;
+		}
+		$nL = $width & 0xFF;
+		$nH = ($width >> 8) & 0xFF;
+		$output .= "\x1B\x2A" . chr(33) . chr($nL) . chr($nH) . $line;
+		$output .= "\x0A";
 		}
 		
 		// $output .= "\x1B\x61\x00"; // AlineaciÃ³n izq
@@ -278,9 +302,9 @@
 		imagedestroy($img);
 		
 		return $output;
-	}
-	
-	function generateQRCodeESCpos($url) {
+		}
+		
+		function generateQRCodeESCpos($url) {
 		// Elegir tamaño del QR (1-8, siendo 1 el más pequeño)
 		$size = 4;
 		
@@ -301,17 +325,17 @@
 		// Almacenar datos del QR
 		$cmd .= "\x1D\x28\x6B".chr($length + 3)."\x00\x31\x50\x30";
 		foreach ($urlBytes as $byte) {
-			$cmd .= $byte;
+		$cmd .= $byte;
 		}
 		
 		// Imprimir el QR
 		$cmd .= "\x1D\x28\x6B\x03\x00\x31\x51\x30";
 		
 		return $cmd;
-	}
-	
-	
-	function generarQR($textoQR, $tamano = 5) {
+		}
+		
+		
+		function generarQR($textoQR, $tamano = 5) {
 		// Validar el tamaño (rango permitido por ESC/POS: 1 a 16)
 		if ($tamano < 1) $tamano = 1;
 		if ($tamano > 16) $tamano = 16;
@@ -344,6 +368,7 @@
 		$comando .= "\x0A";
 		
 		return $comando;
-	}
-?>
-
+		}
+		?>
+		
+				

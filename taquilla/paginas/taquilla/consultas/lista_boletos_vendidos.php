@@ -215,6 +215,7 @@
 									-<i class="fas fa-dollar-sign"></i>
 								</button>	
 								
+								
 								<?php
 									if(in_array(dame_permiso("boletos_vendidos.php", $link), array('Administrador'))){
 									?>
@@ -253,7 +254,9 @@
 									if(in_array(dame_permiso("boletos_vendidos.php", $link), array("Escritura"))){
 									?>
 									
-									
+									<button class="btn btn-sm btn-info btn_imprimir" title="Reimpresión"     data-id_registro='<?php echo $fila["id_boletos"]?>'>
+										<i class="fas fa-print"></i>
+									</button>
 									<button class="btn btn-sm btn-secondary btn_editar" title="Editar" data-id_registro='<?php echo $fila["id_boletos"]?>'>
 										<i class="fas fa-edit"></i>
 									</button>	

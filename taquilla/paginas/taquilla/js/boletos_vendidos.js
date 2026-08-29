@@ -414,7 +414,8 @@ function imprimirTicket(){
 	tipo_ticket = null;
 	
 	form_data = {
-		"folio" : folio
+		"folio" : folio,
+		"reimpresion" : "SI"
 	};
 	
 	if($(this).data("tipo_ticket")){
