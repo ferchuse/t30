@@ -167,9 +167,9 @@
 			)
 			VALUES
 			(
-			{$fila_venta["id_boletos"]},
+			'{$fila_venta["id_boletos"]}',
 			NOW(),
-			{$_COOKIE["id_usuarios"]},
+			'{$_COOKIE["id_usuarios"]}',
 			'reimpresion',
 			'',
 			'Reimpresión de boleto'
