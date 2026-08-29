@@ -173,7 +173,7 @@
 			'reimpresion',
 			'',
 			'Reimpresión de boleto'
-			);"
+			);";
 			
 			$result = mysqli_query($link, $consulta_historial) or die(mysqli_Error($link));
 	
