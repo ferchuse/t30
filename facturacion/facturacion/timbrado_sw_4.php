@@ -348,8 +348,13 @@
 			$respuesta["estatus_clientes"]  = mysqli_error($link);
 			$respuesta["error"]  = mysqli_error($link);
 		}
-		
-		
+		// Si ya existe 
+		if($_POST["id_clientes"] == ""){
+			$id_clientes = mysqli_insert_id($link);
+		}
+		else{
+			$id_clientes = $_POST["id_clientes"];
+		}
 		
 		// TODO guardar en BD
 		
