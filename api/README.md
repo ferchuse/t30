@@ -16,4 +16,4 @@ En local, genere una llave activa con:
 php .\generar_token.php correo@ejemplo.com
 ```
 
-Abra `http://localhost/t30/api/pruebas/` para probar local (`config_local.php`) o producción (`config_produccion.php`). El token se captura en el formulario y nunca se guarda en sus archivos.
+Abra `http://localhost/t30/api/pruebas/` para probar local (`config_local.php`) o producción (`config_produccion.php`). En producción el consumidor usa `https://t30.mx/app/api/operacion/getData/`. El token se captura en el formulario y nunca se guarda en sus archivos.
