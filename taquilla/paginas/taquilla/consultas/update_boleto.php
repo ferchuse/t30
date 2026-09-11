@@ -44,19 +44,7 @@
 			
 			
 			
-			// $respuesta["insert"] = $insert;
-			$result_historial = mysqli_query($link,$insert);
 			
-			if($exec_query){
-				$respuesta["estatus"] = "success";
-				$respuesta["mensaje"] ="Guardado Correctamente";
-				
-			}
-			else{
-				$respuesta["estatus"] = "error";
-				$respuesta["error"] = mysqli_error($link);	
-				
-			}
 			
 			$result_historial = mysqli_query($link, $insert_historial);
 			
