@@ -44,14 +44,14 @@
 	";
 	
 	
-	if($_GET["id_usuarios"] != ""){
-		$consulta.=" AND gastos_operador.id_usuarios = '{$_GET["id_usuarios"]}' ";
-	}
+	// if($_GET["id_usuarios"] != ""){
+		// $consulta.=" AND gastos_operador.id_usuarios = '{$_GET["id_usuarios"]}' ";
+	// }
 	
 	
-	if($_GET["num_eco"] != ""){
-		$consulta.=" AND num_eco = '{$_GET["num_eco"]}' ";
-	}
+	// if($_GET["num_eco"] != ""){
+		// $consulta.=" AND num_eco = '{$_GET["num_eco"]}' ";
+	// }
 	
 	
 	
@@ -290,17 +290,19 @@
 								?>
 								<a href="editar_gasto_operador.php?id=<?php echo $gasto["id_gasto_operador"]; ?>" 
 								class="btn btn-warning btn-sm">
-									Editar
+									<i class="fas fa-edit"></i> Editar
 								</a>
+								
+								<button 
+							type="button" 
+							class="btn btn-danger btn-sm btn_borrar"
+							data-id="<?php echo $gasto["id_gasto_operador"]; ?>">
+								<i class="fas fa-trash"></i> Borrar
+							</button>
 								<?php
 								}
 							?>
-							<button 
-							type="button" 
-							class="btn btn-danger btn-sm btn-borrar-gasto d-none"
-							data-id="<?php echo $gasto["id_gasto_operador"]; ?>">
-								Borrar
-							</button>
+							
 						</td>
 					</tr>
 				<?php } ?>

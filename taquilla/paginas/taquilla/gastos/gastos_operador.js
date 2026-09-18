@@ -17,7 +17,7 @@ function onLoad(){
 		
 	})
 	
-	$("#lista_gastos").on("click", ".cancelar_gasto", confirmaCancelarGasto);
+	$("#lista_gastos").on("click", ".btn_borrar", confirmaBorrarGasto);
 	$("#lista_gastos").on("click", ".btn_editar", editarGasto);
 	$("#lista_gastos").on("click", ".btn_imprimir", function (){
 		
@@ -163,6 +163,49 @@ function listarGastos() {
 	});
 }
 
+
+function confirmaBorrarGasto(event){
+	console.log("confirmaBorrar")
+	let $boton = $(this);
+	let $fila = $(this).closest('tr');
+	let $icono = $(this).find(".fas");
+	
+	
+	// motivo = window.prompt("Escriba el Motivo");
+	
+	if(confirm("¿Está seguro? Esta accion no puede deshacerse")){
+		$boton.prop("disabled", true);
+		$icono.toggleClass("fa-trash fa-spinner fa-spin");
+		
+		$.ajax({  
+			"url": "gastos/borrar_gasto_operador.php",
+			"dataType": "JSON",
+			"method": "POST",
+			"data": {
+				"id_registro": $boton.data("id"),
+				
+			}
+			}).done( function alTerminar (respuesta){
+			console.log("respuesta", respuesta);
+			if(respuesta.estatus == "success"){
+				$fila.fadeOut(200)
+				alertify.success("Borrado")
+			}
+			// listarGastos();
+			
+			}).fail(function(xhr, textEstatus, error){
+			console.log("textEstatus", textEstatus);
+			console.log("error", error);
+			
+			}).always(function(){
+			$boton.prop("disabled", false);
+			$icono.toggleClass("fa-trash fa-spinner fa-spin"); 
+			
+		});
+		
+	}	
+	
+}		
 
 function confirmaCancelarGasto(event){
 	console.log("confirmaBorrar")
