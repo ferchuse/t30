@@ -6,6 +6,34 @@
 	$filas = array();
 	$respuesta = array();
 	$totales = array_fill (  0 ,  1 , 0 ); //Llena el array totales con 10 elementos en 0s
+	$total = array_fill (  0 ,  10 , 0 ); //Llena el array totales con 10 elementos en 0s
+	
+	
+	function getSaldoAnterior($id_unidades){
+		global $link;
+		$respuesta = array();
+		$consulta = "SELECT id, tbl_states.name, countryID  FROM paises 
+		LEFT JOIN tbl_states 
+		ON paises.country_id = tbl_states.countryId
+		WHERE iso2 = '{$id_pais}'
+		";
+		
+		$consulta.=" ORDER BY name";
+		
+		$result = mysqli_query( $link, $consulta ) 
+		or die("Error al ejecutar getCountryStates: $consulta".mysqli_error($link));
+		
+		
+		while($row = mysqli_fetch_assoc($result)) {
+			
+			$respuesta[] = $row ;
+			
+		}
+		
+		
+		return $respuesta;
+		
+	}
 	
 	
 	$consulta = "
@@ -39,6 +67,17 @@
 	GROUP BY num_eco
 	) as t_gastos_operativos_anterior
 	USING (num_eco)
+	
+	LEFT JOIN (
+	SELECT num_eco, SUM(monto_gasto) AS total_gastos_operador_anterior
+	FROM gastos_operador
+	LEFT JOIN unidades
+	USING(id_unidades)
+	
+	WHERE DATE(fecha_gasto) < '{$_GET["fecha_inicial"]}'
+	GROUP BY num_eco 
+	) AS t_gastos_operador_anterior
+	USING(num_eco)
 	
 	LEFT JOIN (
 	SELECT
@@ -152,6 +191,18 @@
 	USING (num_eco)
 	
 	LEFT JOIN (
+	SELECT num_eco, SUM(monto_gasto) AS total_gastos_operador
+	FROM gastos_operador
+	LEFT JOIN unidades
+	USING(id_unidades)
+	
+	WHERE DATE(fecha_gasto) BETWEEN '{$_GET["fecha_inicial"]}'
+	AND '{$_GET["fecha_final"]}'
+	GROUP BY id_unidades 
+	) AS t_gastos_operador
+	USING(num_eco)
+	
+	LEFT JOIN (
 	SELECT
 	num_eco,
 	SUM(monto)  AS abono_caja 
@@ -177,6 +228,8 @@
 	GROUP BY num_eco
 	) as t_traspaso
 	USING (num_eco)
+	
+	
 	
 	LEFT JOIN (
 	SELECT
@@ -270,10 +323,7 @@
 		
 	?>
 	
-	<pre hidden >
-		
-		<?php echo $consulta?>
-	</pre>
+	
 	<table class="table table-bordered table-condensed" id="dataTable" width="100%" cellspacing="0">
 		<thead>
 			<tr>
@@ -293,18 +343,20 @@
 				<?php 
 					foreach($filas as $index=>$fila){
 						
-						$saldo_anterior = $fila["importe_boletos_anterior"] + $fila["abono_caja_anterior"] - $fila["importe_gastos_operativos_anterior"] - $fila["traspasos_anterior"] - $fila["cargos_anterior"] - $fila["cargos_fijos_anterior"] - $fila["casetas_anterior"] - $fila["comision_tarjeta_anterior"];
+						$saldo_anterior = $fila["importe_boletos_anterior"] + $fila["abono_caja_anterior"] - $fila["importe_gastos_operativos_anterior"] - $fila["total_gastos_operador_anterior"] - $fila["traspasos_anterior"] - $fila["cargos_anterior"] - $fila["cargos_fijos_anterior"] - $fila["casetas_anterior"] - $fila["comision_tarjeta_anterior"];
 						
-						$total[7]+= $fila["comision_tarjeta"];
+						$saldo_restante =  $saldo_anterior + $fila["importe_boletos"] +  $fila["abono_caja"] - $fila["importe_gastos_operativos"] -  $fila["total_gastos_operador"] - $fila["traspasos"] - $fila["cargos"] - $fila["cargos_fijos"] - $fila["casetas"] -  $fila["comision_tarjeta"];
+						
 						$total[0]+= $fila["importe_boletos"];
-						$total[1]+= $fila["importe_gastos_operativos"];
+						$total[1]+= $fila["importe_gastos_operativos"] + $fila["total_gastos_operador"];
 						$total[2]+= $fila["abono_caja"];
 						$total[3]+= $fila["traspasos"];
 						$total[4]+= $fila["cargos"] + $fila["cargos_fijos"];
 						$total[5]+= $fila["casetas"] ;
-						$total[6]+=  $fila["importe_boletos"] +  $fila["abono_caja"] - $fila["importe_gastos_operativos"] -  $fila["traspasos"] - $fila["cargos"] - $fila["cargos_fijos"] - $fila["casetas"] -  $fila["comision_tarjeta"];
+						$total[6]+=  $saldo_restante;
+						$total[7]+= $fila["comision_tarjeta"];
 						
-						$saldo_restante=  $saldo_anterior + $fila["importe_boletos"] +  $fila["abono_caja"] - $fila["importe_gastos_operativos"] -  $fila["traspasos"] - $fila["cargos"] - $fila["cargos_fijos"] - $fila["casetas"] -  $fila["comision_tarjeta"];
+						
 					?>
 					<tr class="text-right focusable" >						
 						<td class="text-left"><?php echo $fila["num_eco"]?></td>
@@ -313,7 +365,7 @@
 						<td > $<?php echo number_format($fila["comision_tarjeta"],2)?></td>
 						<td >
 							
-							$<?php echo number_format($fila["importe_gastos_operativos"],2)?>
+							$<?php echo number_format($fila["importe_gastos_operativos"] + $fila["total_gastos_operador"],2)?>
 							
 						</td>
 						<td >
@@ -327,8 +379,8 @@
 						<td >$<?php echo number_format($fila["casetas"],2)?></td>
 						<td >
 							
-							<a href="estado_cuenta_detalle.php?id_unidades=<?php echo $filas["id_unidades"];?>&num_eco=<?php echo $fila["num_eco"];?>
-							&nombre_propietarios=<?php echo $fila["nombre_propietarios"];?>
+							<a href="estado_cuenta_detalle.php?id_unidades=<?php echo $fila["id_unidades"];?>&num_eco=<?php echo $fila["num_eco"];?>
+							&nombre_propietarios=<?php echo isset($fila["nombre_propietarios"]) ?  $fila["nombre_propietarios"] : "";?>
 							&fecha_inicial=<?php echo $_GET["fecha_inicial"];?>
 							&fecha_final=<?php echo $_GET["fecha_final"];?>
 							">
@@ -355,6 +407,11 @@
 				</tfoot>
 			</table>
 		</div>
+		<pre hidden >
+		
+		<?php echo $consulta?>
+	</pre>
+		
 		
 		<?php
 			
@@ -363,5 +420,7 @@
 		else {
 			echo  "Error en ".$consulta.mysqli_Error($link);
 		}
+		
+		
 		
 	?>											

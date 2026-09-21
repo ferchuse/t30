@@ -14,6 +14,10 @@
 	
 	$consulta= 
 	"
+		#######################SALDO ANTERIOR ########################
+	
+	
+	
 	SELECT 
 	1 AS orden,
 	'{$_GET["fecha_inicial"]}' AS fecha,
@@ -24,6 +28,7 @@
 	COALESCE(total_cargos,0) - 
 	COALESCE(total_cargos_fijos,0) - 
 	COALESCE(total_gastos,0) -
+	COALESCE(total_gastos_operador,0) -
 	COALESCE(total_traspasos,0)  -
 	COALESCE(total_casetas,0)  -
 	COALESCE(total_comision_tarjetas,0)  
@@ -73,6 +78,18 @@
 	AND estatus_gastos = 'Activo'
 	#AND estatus_boletos= 'Activo'
 	) AS t_gastos
+	USING(num_eco)
+	
+	
+	LEFT JOIN (
+	SELECT num_eco, SUM(monto_gasto) AS total_gastos_operador
+	FROM gastos_operador
+	LEFT JOIN unidades
+	USING(id_unidades)
+	WHERE num_eco = '{$_GET["num_eco"]}'
+	AND DATE(fecha_gasto) < '{$_GET["fecha_inicial"]}'
+	
+	) AS t_gastos_operador
 	USING(num_eco)
 	
 	LEFT JOIN (
@@ -194,11 +211,31 @@
 	AND estatus_gastos = 'Activo'
 	#AND estatus_boletos= 'Activo'
 	
+	UNION
+	
+	SELECT 
+	5 AS orden,
+	DATE(fecha_gasto) AS fecha, 
+	CONCAT('Gasto #', id_gasto_operador , 
+	' ', descripcion_gastos ) AS motivo, 
+	monto_gasto AS cargo,
+	0 AS abono,
+	nombre_conductores AS observaciones
+	FROM
+	gastos_operador
+	LEFT JOIN unidades USING(id_unidades)
+	LEFT JOIN conductores USING(id_conductores)
+	LEFT JOIN cat_gastos USING(id_cat_gastos)
+	WHERE
+	num_eco = '{$_GET['num_eco']}' 
+	AND DATE(fecha_gasto) BETWEEN '{$_GET["fecha_inicial"]}' AND '{$_GET["fecha_final"]}'
+	
+	
 	
 	UNION
 	
 	SELECT
-	5 AS orden,
+	6 AS orden,
 	DATE(fecha_aplicacion) AS fecha,
 	CONCAT(
 	'Abono #',
@@ -219,7 +256,7 @@
 	
 	
 	SELECT
-	6 AS orden,
+	7 AS orden,
 	DATE(fecha_aplicacion) AS fecha,
 	CONCAT(
 	'Traspaso #',
@@ -239,7 +276,7 @@
 	UNION
 	
 	SELECT
-	7 AS orden,
+	8 AS orden,
 	DATE(fecha_viaje) AS fecha,
 	'Casetas TELEVIA ' AS motivo,
 	SUM(importe) AS cargo,
@@ -371,7 +408,9 @@
 								<tbody> 
 									
 									<?php 
-										$saldo = $filas[0]["saldo_anterior"];
+										$saldo = 0;
+										$total_cargos = 0;
+										$total_abonos = 0;
 										
 										foreach($filas as $i=>$fila){
 											$total_cargos+= $fila["cargo"];
@@ -402,7 +441,7 @@
 										<td colspan="2"> TOTALES</td>
 										<td>$<?php echo number_format($total_cargos,2);?></td>
 										<td>$<?php echo number_format($total_abonos,2);?></td>
-										<td>$<?php echo number_format($filas[0]["saldo_anterior"] + $total_abonos - $total_cargos,2);?></td>
+										<td>$<?php echo number_format($total_abonos - $total_cargos,2);?></td>
 										<td > </td>
 									</tr>
 								</tr>

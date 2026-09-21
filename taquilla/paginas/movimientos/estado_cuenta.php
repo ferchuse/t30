@@ -30,7 +30,7 @@
 								Estado de Cuenta
 							</h4>
 						</div>
-						<div class="col-sm-6 d-none">
+						<div class="col-sm-6 text-right d-none">
 							<button type="button" class="btn btn-primary btn-sm  " id="btn_exportar" >
 								<i class="fa fa-file-excel"></i> Exportar  
 							</button>

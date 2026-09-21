@@ -7,8 +7,7 @@
 	$xlsx = new SimpleXLSXGen();
 	$link = Conectarse();
 	$filas = array();
-	
-		$consulta = "
+	$consulta = "
 	SELECT * FROM unidades
 	
 	
@@ -39,6 +38,17 @@
 	GROUP BY num_eco
 	) as t_gastos_operativos_anterior
 	USING (num_eco)
+	
+	LEFT JOIN (
+	SELECT num_eco, SUM(monto_gasto) AS total_gastos_operador_anterior
+	FROM gastos_operador
+	LEFT JOIN unidades
+	USING(id_unidades)
+	
+	WHERE DATE(fecha_gasto) < '{$_GET["fecha_inicial"]}'
+	GROUP BY num_eco 
+	) AS t_gastos_operador_anterior
+	USING(num_eco)
 	
 	LEFT JOIN (
 	SELECT
@@ -152,6 +162,18 @@
 	USING (num_eco)
 	
 	LEFT JOIN (
+	SELECT num_eco, SUM(monto_gasto) AS total_gastos_operador
+	FROM gastos_operador
+	LEFT JOIN unidades
+	USING(id_unidades)
+	
+	WHERE DATE(fecha_gasto) BETWEEN '{$_GET["fecha_inicial"]}'
+	AND '{$_GET["fecha_final"]}'
+	GROUP BY id_unidades 
+	) AS t_gastos_operador
+	USING(num_eco)
+	
+	LEFT JOIN (
 	SELECT
 	num_eco,
 	SUM(monto)  AS abono_caja 
@@ -177,6 +199,8 @@
 	GROUP BY num_eco
 	) as t_traspaso
 	USING (num_eco)
+	
+	
 	
 	LEFT JOIN (
 	SELECT
@@ -243,6 +267,7 @@
 	
 	WHERE unidades.id_empresas = {$_COOKIE["empresa_asignada"]}
 	"; 
+	
 	
 	
 	if($_GET["num_eco"] != ''){

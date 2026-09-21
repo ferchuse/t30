@@ -33,7 +33,9 @@ $(document).ready( function onLoad(){
 		}
 	})
 	
-	
+	$("#btn_exportar").click(function(event){
+		window.open("consultas/exportar_estado_cuenta.php?"+ $("#form_filtro").serialize())
+	});
 	
 	
 	$('#form_filtro').on('submit', function filtrar(event){

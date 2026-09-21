@@ -9,6 +9,10 @@
 	$filas = array();
 		$consulta= 
 	"
+		#######################SALDO ANTERIOR ########################
+	
+	
+	
 	SELECT 
 	1 AS orden,
 	'{$_GET["fecha_inicial"]}' AS fecha,
@@ -19,19 +23,27 @@
 	COALESCE(total_cargos,0) - 
 	COALESCE(total_cargos_fijos,0) - 
 	COALESCE(total_gastos,0) -
+	COALESCE(total_gastos_operador,0) -
 	COALESCE(total_traspasos,0)  -
 	COALESCE(total_casetas,0)  -
 	COALESCE(total_comision_tarjetas,0)  
 	AS abono,
 	'' AS observaciones
 	
-	FROM (
+	FROM 
+	
+	(
+	SELECT '{$_GET["num_eco"]}' AS num_eco
+	) AS t_num_eco 
+	
+	LEFT JOIN
+	(
 	SELECT num_eco, SUM(total) AS total_boletos 
 	FROM boletos 
 	WHERE num_eco = '{$_GET["num_eco"]}'
 	AND DATE(fecha_boletos) < '{$_GET["fecha_inicial"]}'
 	AND estatus_boletos = 'Activo'
-	) AS t_boletos 
+	) AS t_boletos  USING (num_eco)
 	
 	LEFT JOIN (
 	SELECT num_eco, SUM(monto) AS total_cargos
@@ -59,7 +71,20 @@
 	WHERE num_eco = '{$_GET["num_eco"]}'
 	AND DATE(fecha_gastos) < '{$_GET["fecha_inicial"]}'
 	AND estatus_gastos = 'Activo'
+	#AND estatus_boletos= 'Activo'
 	) AS t_gastos
+	USING(num_eco)
+	
+	
+	LEFT JOIN (
+	SELECT num_eco, SUM(monto_gasto) AS total_gastos_operador
+	FROM gastos_operador
+	LEFT JOIN unidades
+	USING(id_unidades)
+	WHERE num_eco = '{$_GET["num_eco"]}'
+	AND DATE(fecha_gasto) < '{$_GET["fecha_inicial"]}'
+	
+	) AS t_gastos_operador
 	USING(num_eco)
 	
 	LEFT JOIN (
@@ -179,13 +204,33 @@
 	num_eco = '{$_GET['num_eco']}' 
 	AND DATE(fecha_gastos) BETWEEN '{$_GET["fecha_inicial"]}' AND '{$_GET["fecha_final"]}'
 	AND estatus_gastos = 'Activo'
-	AND estatus_boletos= 'Activo'
+	#AND estatus_boletos= 'Activo'
+	
+	UNION
+	
+	SELECT 
+	5 AS orden,
+	DATE(fecha_gasto) AS fecha, 
+	CONCAT('Gasto #', id_gasto_operador , 
+	' ', descripcion_gastos ) AS motivo, 
+	monto_gasto AS cargo,
+	0 AS abono,
+	nombre_conductores AS observaciones
+	FROM
+	gastos_operador
+	LEFT JOIN unidades USING(id_unidades)
+	LEFT JOIN conductores USING(id_conductores)
+	LEFT JOIN cat_gastos USING(id_cat_gastos)
+	WHERE
+	num_eco = '{$_GET['num_eco']}' 
+	AND DATE(fecha_gasto) BETWEEN '{$_GET["fecha_inicial"]}' AND '{$_GET["fecha_final"]}'
+	
 	
 	
 	UNION
 	
 	SELECT
-	5 AS orden,
+	6 AS orden,
 	DATE(fecha_aplicacion) AS fecha,
 	CONCAT(
 	'Abono #',
@@ -206,7 +251,7 @@
 	
 	
 	SELECT
-	6 AS orden,
+	7 AS orden,
 	DATE(fecha_aplicacion) AS fecha,
 	CONCAT(
 	'Traspaso #',
@@ -226,7 +271,7 @@
 	UNION
 	
 	SELECT
-	7 AS orden,
+	8 AS orden,
 	DATE(fecha_viaje) AS fecha,
 	'Casetas TELEVIA ' AS motivo,
 	SUM(importe) AS cargo,
@@ -267,6 +312,7 @@
 	
 	ORDER BY fecha,orden
 	";
+	
 	
 	
 	
