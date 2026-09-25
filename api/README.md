@@ -10,7 +10,7 @@ Cada elemento de `viajes` contiene `pagos`, un arreglo de objetos con `medio` e 
 
 ## Clientes frecuentes
 
-`POST /api/operacion/putCustomer/` crea o actualiza un registro de `clientes_frecuentes`. Recibe `token`, `nombre`, `apellidop`, `apelidom`, `mail`, `telefono` y `rfc` opcional. El teléfono identifica al cliente: si ya existe, se actualizan sus datos. En éxito responde `status` e `id`.
+`POST /api/operacion/putCustomer/` crea o actualiza un registro de `clientes_frecuentes`. Recibe `token`, `nombre`, `apellidop`, `apelidom`, `mail`, `telefono`, `pais`, `clave_pais` y `rfc` opcional. `pais` y `clave_pais` tienen como valores predeterminados `México` y `+52`. La combinación de clave de país y teléfono identifica al cliente. En éxito responde `status`, `id` y `uuid`. El UUID es permanente y se usa como contenido del QR de la tarjeta de lealtad.
 
 En producción la ruta es `https://t30.mx/app/api/operacion/putCustomer/`.
 

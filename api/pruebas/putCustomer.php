@@ -55,6 +55,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="col-md-4"><label class="form-label">Apellido paterno<input class="form-control" name="apellidop" required value="<?= htmlspecialchars($_POST['apellidop'] ?? '') ?>"></label></div>
                 <div class="col-md-4"><label class="form-label">Apellido materno<input class="form-control" name="apelidom" required value="<?= htmlspecialchars($_POST['apelidom'] ?? '') ?>"></label></div>
                 <div class="col-md-6"><label class="form-label">Correo<input class="form-control" type="email" name="mail" required value="<?= htmlspecialchars($_POST['mail'] ?? '') ?>"></label></div>
+                <div class="col-md-4"><label class="form-label">País<input class="form-control" name="pais" value="<?= htmlspecialchars($_POST['pais'] ?? 'México') ?>"></label></div>
+                <div class="col-md-2"><label class="form-label">Clave<input class="form-control" name="clave_pais" value="<?= htmlspecialchars($_POST['clave_pais'] ?? '+52') ?>"></label></div>
                 <div class="col-md-6"><label class="form-label">Teléfono<input class="form-control" type="tel" name="telefono" required value="<?= htmlspecialchars($_POST['telefono'] ?? '') ?>"></label></div>
                 <div class="col-md-6"><label class="form-label">RFC <span class="text-secondary">(opcional)</span><input class="form-control text-uppercase" name="rfc" maxlength="13" value="<?= htmlspecialchars($_POST['rfc'] ?? '') ?>"></label></div>
                 <div class="col-12"><button class="btn btn-primary" type="submit">Enviar POST a putCustomer</button></div>
