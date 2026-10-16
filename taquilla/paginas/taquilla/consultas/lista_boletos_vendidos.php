@@ -64,7 +64,7 @@
 	}
 	
 	if($_GET["id_empresas"] != ""){
-		$consulta_boletos.=" AND unidades.id_empresas = '{$_GET["id_empresas"]}' ";
+		$consulta_boletos.=" AND (unidades.id_empresas = '{$_GET["id_empresas"]}' OR boletos.forma_pago = 'API') ";
 	}
 	
 	if($_GET["estatus"] != ''){

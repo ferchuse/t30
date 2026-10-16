@@ -22,6 +22,7 @@
 	<table class="table table-bordered" id="tabla_registros" width="100%" cellspacing="0">
 		<thead>
 			<tr>
+				<th class="text-center">ID</th>
 				<th class="text-center">Zona</th>
 				<th class="text-center">Destino</th>
 				<th class="text-center">Precio Sedan</th>
@@ -35,6 +36,7 @@
 				while($fila = mysqli_fetch_assoc($result)){?>
 				
 				<tr>
+					<td class="text-center"><?php echo $fila["id_precio"];?></td>
 					<td><?php echo $fila["zona"];?></td>
 					<td><?php echo $fila["destino"];?></td>
 					<td class="text-right">$<?php echo number_format($fila["precio"],2);?></td>

@@ -1,7 +1,10 @@
 <?php
 include("../login/login_check.php");
 include('../../conexi.php');
+include_once('../../funciones/dame_permiso.php');
 $link = Conectarse();
+$permiso = dame_permiso('clientes.php', $link);
+$puedeEditar = in_array($permiso, array('Administrador', 'Supervisor', 'Escritura'), true);
 $nombre_pagina = 'Clientes frecuentes';
 ?>
 <!DOCTYPE html>
@@ -12,7 +15,7 @@ $nombre_pagina = 'Clientes frecuentes';
 <?php include("../../navbar.php")?><div id="wrapper"><?php include("../../menu.php")?>
 <div id="content-wrapper"><div class="container-fluid">
 <ol class="breadcrumb"><li class="breadcrumb-item">Catálogos</li><li class="breadcrumb-item active"><?= $nombre_pagina ?></li></ol>
-<div class="row mb-2"><div class="col-12"><button class="btn btn-success btn-sm" type="button" id="nuevo_cliente"><i class="fas fa-plus"></i> Nuevo cliente</button></div></div>
+<?php if ($puedeEditar) { ?><div class="row mb-2"><div class="col-12"><button class="btn btn-success btn-sm" type="button" id="nuevo_cliente"><i class="fas fa-plus"></i> Nuevo cliente</button></div></div><?php } ?>
 <form id="form_filtros" autocomplete="off"><div class="row mb-3">
 <div class="col-md-4"><label>Nombre, teléfono o UUID</label><input class="form-control" name="busqueda" type="search"></div>
 <div class="col-md-3"><label>Estatus</label><select class="form-control" name="estatus"><option value="">Todos</option><option value="Activo" selected>Activo</option><option value="Inactivo">Inactivo</option></select></div>

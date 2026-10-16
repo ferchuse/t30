@@ -1,6 +1,6 @@
 <?php 
 	
-	include("funciones/dame_permiso.php");
+	include_once("funciones/dame_permiso.php");
 	include_once("conexi.php");
 	
 	// if(!function_exists("Conectarse")){
