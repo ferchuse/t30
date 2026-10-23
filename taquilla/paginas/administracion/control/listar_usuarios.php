@@ -13,7 +13,7 @@
 		}
 	if($_GET["nombre_usuarios"] != ""){
 		
-		$consulta.=" AND nombre_usuarios LIKE '%{$_GET["nombre_usuarios"]}%'";
+		$consulta.=" AND nombre_usuarios LIKE '%{$_GET["nombre_usuarios"]}%' OR nombre_completo_usuarios LIKE '%{$_GET["nombre_usuarios"]}%'";
 	}
 	
 	// $consulta.=" AND empresa_asignada = '{$_COOKIE["empresa_asignada"]}'";
