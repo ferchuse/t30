@@ -34,5 +34,9 @@ $nombre_pagina = 'Clientes frecuentes';
 <div class="form-group"><label>Observaciones</label><textarea class="form-control" rows="3" name="observaciones" id="observaciones"></textarea></div>
 </div><div class="modal-footer"><button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button><button type="submit" class="btn btn-success"><i class="fas fa-save"></i> Guardar</button></div>
 </div></div></div></form>
+<div class="modal fade" id="modal_historial_puntos" tabindex="-1" role="dialog" aria-labelledby="titulo_historial_puntos" aria-hidden="true"><div class="modal-dialog modal-lg" role="document"><div class="modal-content">
+<div class="modal-header"><h5 class="modal-title" id="titulo_historial_puntos">Historial de puntos</h5><button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button></div>
+<div class="modal-body" id="contenido_historial_puntos"></div>
+</div></div></div>
 <?php include("../../scripts.php")?><script src="js/clientes.js?v=<?= date('YmdHis') ?>"></script>
 </body></html>

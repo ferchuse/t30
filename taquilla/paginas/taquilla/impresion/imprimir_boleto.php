@@ -3,8 +3,10 @@
 	include('../../../conexi.php');
 	include('../../../lib/numero_a_letras.php');
 	include('../../../funciones/normalize_chars.php');
+	require_once __DIR__ . '/descuento_ticket.php';
 	
-	$link = Conectarse();
+	require_once __DIR__ . '/cliente_puntos_ticket.php';
+$link = Conectarse();
 	
 	$esc = "\x1B";
 	$comando_fuenteA = "\x1B\x4D\x00";
@@ -50,6 +52,7 @@
 		$respuesta.= "Placas:       " . $fila_venta["placas"]."\n";
 		$respuesta.= "Taquilla:     " .$fila_venta["taquilla"]."\n";
 		$respuesta.= "Pasajeros:    " .$fila_venta["pasajeros"]."\n";
+$respuesta.= clientePuntosTicket($fila_venta);
 		$respuesta.= "Pasajero:     " .$fila_venta["nombre_pasajero"]."\n";
 		$respuesta.= "Atendido Por: " . normalizeChars($fila_venta["nombre_usuarios"])."\n";
 		$respuesta.= "Conductor:    ". normalizeChars($fila_venta["nombre_conductores"]). "\n\n";
@@ -62,6 +65,7 @@
 		$respuesta.=  "\x1b"."E".chr(0)."\n";
 		
 		$respuesta.="Forma de Pago:        ". $fila_venta["forma_pago"]. "\n";
+		$respuesta.= descuentoTicket($fila_venta);
 		$respuesta.="Total:                $" .str_pad(number_format($fila_venta["total"],2),10," ",STR_PAD_LEFT)."\n";
 		
 		$importe_letra = str_split("(".NumeroALetras::convertir($fila_venta["total"], "pesos", "centavos")." 00/100 M.N.)\n\n", 40);
@@ -104,6 +108,7 @@
 		$respuesta.= "Num Eco:      " .$fila_venta["num_eco"]."\n";
 		$respuesta.= "Placas:       " . $fila_venta["placas"]."\n";
 		$respuesta.= "Pasajeros:    " .$fila_venta["pasajeros"]."\n";
+$respuesta.= clientePuntosTicket($fila_venta);
 		$respuesta.= "Conductor:    " .normalizeChars($fila_venta["nombre_conductores"])."\n";
 		$respuesta.= "Atendido Por: " . normalizeChars($fila_venta["nombre_usuarios"])."\n\n";
 		
@@ -114,7 +119,8 @@
 		
 		$respuesta.= "Domicilio: \n ". normalizeChars($fila_venta["domicilio"]). "\n\n";
 		$respuesta.= "Forma de Pago:        ". $fila_venta["forma_pago"]. "\n";
-		$respuesta.= "Total:               $" .str_pad(number_format($fila_venta["total"],2),10," ",STR_PAD_LEFT)."\n";
+		$respuesta.= descuentoTicket($fila_venta);
+		$respuesta.="Total:               $" .str_pad(number_format($fila_venta["total"],2),10," ",STR_PAD_LEFT)."\n";
 		
 		$importe_letra = str_split("(".NumeroALetras::convertir($fila_venta["total"], "pesos", "centavos")." 00/100 M.N.)\n\n", 40);
 		$respuesta.= $importe_letra[0]."\n";
@@ -191,6 +197,7 @@
 		$respuesta.= "Placas:       " . $fila_venta["placas"]."\n";
 		$respuesta.= "Taquilla:     " .$fila_venta["taquilla"]."\n";
 		$respuesta.= "Pasajeros:    " .$fila_venta["pasajeros"]."\n";
+$respuesta.= clientePuntosTicket($fila_venta);
 		$respuesta.= "Pasajero:     " .$fila_venta["nombre_pasajero"]."\n";
 		$respuesta.= "Atendido Por: " . normalizeChars($fila_venta["nombre_usuarios"])."\n";
 		$respuesta.= "Conductor:    ". normalizeChars($fila_venta["nombre_conductores"]). "\n\n";
@@ -203,6 +210,7 @@
 		$respuesta.=  "\x1b"."E".chr(0)."\n";
 		
 		$respuesta.="Forma de Pago:        ". $fila_venta["forma_pago"]. "\n";
+		$respuesta.= descuentoTicket($fila_venta);
 		$respuesta.="Total:                $" .str_pad(number_format($fila_venta["total"],2),10," ",STR_PAD_LEFT)."\n";
 		
 		$importe_letra = str_split("(".NumeroALetras::convertir($fila_venta["total"], "pesos", "centavos")." 00/100 M.N.)\n\n", 40);

@@ -63,3 +63,17 @@
 	}
 	
 </script>
+<script>
+// Toda la fila del toggle es pulsable; las etiquetas mantienen su acción nativa.
+document.addEventListener('click', function (event) {
+    var target = event.target;
+    if (!target || !target.closest) { return; }
+    var fila = target.closest('.custom-control.toggle-ios');
+    if (!fila || target.closest('input, label, a, button, select, textarea')) { return; }
+    var checkbox = fila.querySelector('input[type="checkbox"]');
+    if (checkbox && !checkbox.disabled) {
+        checkbox.focus();
+        checkbox.click();
+    }
+});
+</script>

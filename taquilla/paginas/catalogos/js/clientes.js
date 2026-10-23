@@ -1,4 +1,13 @@
 $(function () {
+    var peticionHistorial = null;
+    $(document).on('click', '.historial_puntos', function(){
+        if (peticionHistorial) { peticionHistorial.abort(); }
+        $('#contenido_historial_puntos').text('Cargando historial…');
+        $('#modal_historial_puntos').modal('show');
+        peticionHistorial = $.get('consultas/historial_puntos.php', {id:$(this).data('id')})
+        .done(function(html){ $('#contenido_historial_puntos').html(html); })
+        .fail(function(xhr, estado){ if (estado !== 'abort') { $('#contenido_historial_puntos').text('No fue posible cargar el historial.'); } });
+    });
     listarClientes();
     $('#form_filtros').submit(function (e) { e.preventDefault(); listarClientes(); });
     $('#nuevo_cliente').click(function () { $('#form_cliente_frecuente')[0].reset(); $('#id_cliente_frecuente,#puntos_cliente,#uuid_cliente').val(''); $('#pais_cliente').val('México'); $('#clave_pais_cliente').val('+52'); $('#estatus_cliente').val('Activo'); $('#modal_cliente_frecuente').modal('show'); });

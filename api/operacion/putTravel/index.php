@@ -82,22 +82,22 @@ $nombrePasajero = trim(
     . (string) $cliente['apellidom_cliente']
 );
 $idCliente = (int) $cliente['id_cliente_frecuente'];
-$fechaBoleto = $fechaViaje->format('Y-m-d H:i:s');
+$fechaRecoleccion = $fechaViaje->format('Y-m-d H:i:s');
 $descripcionOrigen = (string) $origen['destino'];
 $descripcionDestino = (string) $destino['destino'];
 $codigoPostalDestino = (string) ($destino['cp_destino'] ?? '');
 $monto = round((float) $montoTexto, 2);
-$formaPago = 'API';
-$estatus = 'Activo';
-
-$insertar = mysqli_prepare($link, 'INSERT INTO boletos (id_cliente_frecuente, fecha_boletos, forma_pago, origen, destino, nombre_pasajero, pasajeros, total, estatus_boletos, celular, cp_destino) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
-mysqli_stmt_bind_param($insertar, 'isssssidsss', $idCliente, $fechaBoleto, $formaPago, $descripcionOrigen, $descripcionDestino, $nombrePasajero, $pasajeros, $monto, $estatus, $telefono, $codigoPostalDestino);
+// En el módulo existente, destino identifica el lugar de recogida.
+// Conservamos por separado ambos extremos del viaje de la app.
+$insertar = mysqli_prepare($link, "INSERT INTO recolecciones
+    (id_cliente_frecuente,fecha_recoleccion,fecha_captura,origen,destino,destino_viaje,nombre_pasajero,pasajeros,celular,total,anticipo,restante,estatus_recoleccion,taquilla,id_terminal)
+    VALUES (?, ?, NOW(), ?, ?, ?, ?, ?, ?, ?, 0, ?, 'PENDIENTE', 'APP', 0)");
+if (!$insertar) { responder(500, array('status'=>'Error','mensaje'=>'No fue posible preparar la reserva.')); }
+mysqli_stmt_bind_param($insertar, 'isssssisdd', $idCliente, $fechaRecoleccion, $descripcionOrigen, $descripcionOrigen, $descripcionDestino, $nombrePasajero, $pasajeros, $telefono, $monto, $monto);
 if (!mysqli_stmt_execute($insertar)) {
-    $detalle = mysqli_stmt_error($insertar);
     mysqli_stmt_close($insertar);
-    responder(500, ['status' => 'Error', 'mensaje' => 'No fue posible crear el viaje.', 'detalle' => $detalle]);
+    responder(500, array('status'=>'Error','mensaje'=>'No fue posible crear la reserva.'));
 }
-$idBoleto = (int) mysqli_insert_id($link);
+$idRecoleccion=(int)mysqli_insert_id($link);
 mysqli_stmt_close($insertar);
-
-responder(200, ['status' => 'Success', 'id_boleto' => $idBoleto]);
+responder(200, array('status'=>'Success','id_recoleccion'=>$idRecoleccion,'total'=>$monto,'anticipo'=>0.0,'restante'=>$monto));

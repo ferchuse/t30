@@ -71,7 +71,7 @@ if (!$tokenValido || !hash_equals((string) $tokenValido['api_key'], $token)) {
 }
 
 // La clave de país y el teléfono forman el identificador funcional del cliente.
-$buscar = mysqli_prepare($link, 'SELECT id_cliente_frecuente, uuid_cliente FROM clientes_frecuentes WHERE telefono_cliente = ? AND clave_pais_cliente = ? LIMIT 1');
+$buscar = mysqli_prepare($link, 'SELECT id_cliente_frecuente, uuid_cliente, puntos_cliente FROM clientes_frecuentes WHERE telefono_cliente = ? AND clave_pais_cliente = ? LIMIT 1');
 mysqli_stmt_bind_param($buscar, 'ss', $telefono, $clavePais);
 mysqli_stmt_execute($buscar);
 $cliente = mysqli_stmt_get_result($buscar)->fetch_assoc();
@@ -80,6 +80,7 @@ mysqli_stmt_close($buscar);
 if ($cliente) {
     $idCliente = (int) $cliente['id_cliente_frecuente'];
     $uuidCliente = (string) ($cliente['uuid_cliente'] ?? '');
+    $puntosCliente = (int) $cliente['puntos_cliente'];
     if ($uuidCliente === '') {
         $uuidCliente = crearUuidV4();
     }
@@ -95,6 +96,7 @@ if ($cliente) {
     mysqli_stmt_close($actualizar);
 } else {
     $uuidCliente = crearUuidV4();
+    $puntosCliente = 0;
     $insertar = mysqli_prepare(
         $link,
         'INSERT INTO clientes_frecuentes
@@ -112,4 +114,4 @@ if (!$ejecutado) {
     responder(500, ['status' => 'Error', 'mensaje' => 'No fue posible guardar el cliente.', 'detalle' => $error]);
 }
 
-responder(200, ['status' => 'Success', 'id' => $idCliente, 'uuid' => $uuidCliente]);
+responder(200, ['status' => 'Success', 'id' => $idCliente, 'uuid' => $uuidCliente, 'puntos' => $puntosCliente]);

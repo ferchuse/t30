@@ -12,6 +12,7 @@
 	$total_gastos = 0;
 	$total_neto = 0;
 	$importe_total  = 0;
+	$total_descuentos = 0;
 	$boletos_vendidos = 0;
 	$fila_gasto  = 0;
 	$respuesta = array();
@@ -64,7 +65,7 @@
 	}
 	
 	if($_GET["id_empresas"] != ""){
-		$consulta_boletos.=" AND (unidades.id_empresas = '{$_GET["id_empresas"]}' OR boletos.forma_pago = 'API') ";
+		$consulta_boletos.=" AND (unidades.id_empresas = '{$_GET["id_empresas"]}' OR boletos.taquilla = 'APP' OR boletos.forma_pago = 'API') ";
 	}
 	
 	if($_GET["estatus"] != ''){
@@ -114,6 +115,7 @@
 				<th>Destino</th>
 				<th>Nombre</th>
 				<th>Pasajeros</th>
+				<th>Descuento</th>
 				<th>Importe Total</th>
 				<th>Efectivo</th>
 				<th>Tarjeta</th>
@@ -321,7 +323,10 @@
 						<?php
 							echo $fila["id_boletos"]."<br>";
 							
-							if( $fila["taquilla"] == "NACIONAL"){
+							if ($fila['taquilla'] == 'APP') {
+                                echo "<div class='badge badge-primary'>APP</div>";
+                            }
+                            elseif( $fila["taquilla"] == "NACIONAL"){
 								
 								echo "<div class='badge badge-success'>NAC</div>";
 							}
@@ -360,6 +365,19 @@
 					</td> 
 					<td><?php echo $fila["nombre_pasajero"]?></td> 
 					<td class="text-right"><?php echo $fila["pasajeros"]?></td>
+					<?php
+                        $descuento_boleto = max(
+                            isset($fila['descuento_total']) ? (float)$fila['descuento_total'] : 0,
+                            (isset($fila['descuento_promocion']) ? (float)$fila['descuento_promocion'] : 0)
+                            + (isset($fila['descuento_puntos']) ? (float)$fila['descuento_puntos'] : 0)
+                        );
+                        if ($fila['estatus_boletos'] === 'Activo') { $total_descuentos += $descuento_boleto; }
+                    ?>
+                    <td class="text-right">
+                        <?php if ($descuento_boleto > 0): ?>
+                            <span class="badge badge-info">Con descuento</span><br>$<?= number_format($descuento_boleto, 2) ?>
+                        <?php else: ?><span class="text-muted">Sin descuento</span><?php endif; ?>
+                    </td>
 					
 					
 					<?php
@@ -455,6 +473,7 @@
 				<td > <?php echo mysqli_num_rows($result_boletos)?> Boletos </td>
 				<td colspan="7"> TOTALES</td>
 				<td><?php echo ($pasajeros);?></td>
+				<td>$<?= number_format($total_descuentos, 2) ?></td>
 				<td>$<?php echo number_format($importe_total);?></td>
 				<td>$<?php echo number_format($efectivo);?></td>
 				<td>$<?php echo number_format($tarjeta);?></td>

@@ -4,7 +4,8 @@
 	include('../../../../lib/numero_a_letras.php');
 	include('../../../../funciones/normalize_chars.php');
 	
-	$link = Conectarse();
+	require_once __DIR__ . '/../../impresion/cliente_puntos_ticket.php';
+$link = Conectarse();
 	
 	$esc = "\x1B";
 	$comando_fuenteA = "\x1B\x4D\x00";
@@ -50,6 +51,7 @@
 	$respuesta.= "Hora:         " . date('H:i:s', strtotime($fila_venta["fecha_boletos"]))."\n";
 	$respuesta.= "Num Eco:      " .$fila_venta["num_eco"]."\n";
 	$respuesta.= "Pasajeros:      " .$fila_venta["pasajeros"]."\n";
+$respuesta.= clientePuntosTicket($fila_venta);
 	$respuesta.= "Conductor:    " .normalizeChars($fila_venta["nombre_conductores"])."\n";
 	$respuesta.= "Atendido Por: " . $fila_venta["nombre_usuarios"]."\n\n";
 	$respuesta.=  "\x1b"."E".chr(1);
@@ -112,6 +114,7 @@
 	$respuesta.= "Hora:         " . date('H:i:s', strtotime($fila_venta["fecha_boletos"]))."\n";
 	$respuesta.= "Num Eco:      " .$fila_venta["num_eco"]."\n";
 	$respuesta.= "Pasajeros:    " .$fila_venta["pasajeros"]."\n";
+$respuesta.= clientePuntosTicket($fila_venta);
 	$respuesta.= "Nombre Pasajero: " .$fila_venta["nombre_pasajero"]."\n";
 	$respuesta.= "Atendido Por:  " . $fila_venta["nombre_usuarios"]."\n\n\n";
 	$respuesta.=  "\x1b"."E".chr(1); //negrita

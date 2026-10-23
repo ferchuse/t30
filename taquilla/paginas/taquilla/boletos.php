@@ -5,9 +5,13 @@
 	// include_once('../../funciones/dame_permiso.php');
 	include("consultas/get_destinos.php");
 	include("consultas/get_unidades.php");
+	include("consultas/get_clientes.php");
 	
 	$destinos = getDestinos($link);
 	$tipos_unidad = getTiposUnidades($link);
+	$clientes_frecuentes = getClientes("Activo");
+	
+	
 	
 	
 	$link = Conectarse();
@@ -29,6 +33,9 @@
 		
 		
 		<style>
+            #lista_clientes_frecuentes .seleccionar_cliente_frecuente {
+                cursor: pointer;
+            }
 			/**
 			* @license
 			* Copyright 2019 Google LLC. All Rights Reserved.
@@ -70,6 +77,10 @@
 			padding-left: 10px;
 			}
 			
+			
+			.mayusculas{
+			text-transform: uppercase;
+			}
 			
 		</style>
 		
@@ -176,6 +187,28 @@
 										
 										<div class="card-body">
 											<!-- ===================== DATOS DEL VIAJE ===================== -->
+											
+											<div class="form-group">
+												<label>Cliente</label>
+												<input type="hidden" id="id_cliente_frecuente" name="id_cliente_frecuente">
+												<div class="input-group">
+													<input class="form-control" id="uuid_cliente" placeholder="Escanea o captura el UUID del QR" autocomplete="off"><div class="input-group-append"><button class="btn btn-primary" type="button" id="btn_buscar_cliente"><i class="fas fa-search"></i> Buscar cliente</button></div>
+													
+												</div>
+                                                <div class="d-flex align-items-center mt-2">
+                                                    <div class="alert alert-secondary mb-0 py-2 flex-grow-1" id="cliente_seleccionado">Público en general</div>
+                                                    <button class="btn btn-outline-danger btn-sm ml-2 flex-shrink-0 d-none" type="button" id="btn_limpiar_cliente"><i class="fas fa-times" aria-hidden="true"></i> Quitar</button>
+                                                </div>
+												<div class="text-primary mt-2 d-none" id="cargando_cliente"><i class="fas fa-spinner fa-spin"></i> Buscando cliente...</div>
+												<div class="alert alert-info mt-2 mb-0 py-2 d-none" id="programa_puntos">
+                                                <div class="small">Puntos disponibles</div>
+                                                <div id="saldo_puntos" class="font-weight-bold" style="font-size:2rem;line-height:1.2"></div>
+                                                <small id="minimo_canje" class="d-block mt-1"></small>
+													<div class="custom-control custom-switch toggle-ios mt-2"><input type="checkbox" class="custom-control-input" id="usar_puntos" name="usar_puntos" value="1"><label class="custom-control-label" for="usar_puntos">Usar puntos disponibles</label></div>
+													<small id="detalle_canje"></small><input type="hidden" id="descuento_puntos" name="descuento_puntos" value="0">
+												</div>
+											</div>
+											
 											<div class="form-group ">
 												<label >Domicilio Completo:</label>
 												<textarea  id="domicilio" name="domicilio" class="form-control" required></textarea>
@@ -293,17 +326,33 @@
 												<!-- ===================== COLUMNA DERECHA: RESUMEN Y DESCUENTOS ===================== -->
 												<div class="col-sm-6">
 													
-													<div class="form-group d-none">
+													
+													<div class="form-group">
 														<label>Subtotal:</label>
+														<div class="input-group input-group">
+															<div class="input-group-prepend">
+																<span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>
+															</div>
+															<input readonly type="number" step="any" id="subtotal" name="subtotal" class="form-control text-right" value="0">
+														</div>
+													</div>
+													
+													<div class="form-group">
+														<label for="cupon">Cupón:</label>
+                                                        <div class="input-group"><input class="form-control text-uppercase" id="cupon" maxlength="64" autocomplete="off"><div class="input-group-append"><button type="button" class="btn btn-primary" id="aplicar_cupon">Aplicar</button></div></div>
+                                                        <input type="hidden" id="codigo_cupon" name="codigo_cupon"><small id="mensaje_cupon" role="status"></small>
+                                                        <button type="button" class="btn btn-link btn-sm px-0 d-none" id="quitar_cupon">Quitar cupón</button>
+													</div>
+													
+													<div class="form-group" id="grupo_descuento">
+														<label>Monto Descuento:</label>
 														<div class="input-group input-group-lg">
 															<div class="input-group-prepend">
 																<span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>
 															</div>
-															<input type="number" step="any" id="subtotal" name="subtotal" class="form-control text-right" value="0">
+															<input type="number" step="any" id="descuento" class="form-control text-right" value="0" readonly>
 														</div>
 													</div>
-													
-													
 													
 													<div class="form-group">
 														<label>Total:</label>
@@ -369,12 +418,21 @@
 	
 	
 	<?php include("../../scripts.php")?>
+	<?php include("forms/form_cliente.php")?>
+<div class="modal fade" id="modalBuscarCliente" tabindex="-1"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title">Buscar cliente frecuente</h5><button type="button" class="close" data-dismiss="modal"><span>&times;</span></button></div><div class="modal-body"><input type="search" class="form-control mb-3" id="filtro_cliente_frecuente" placeholder="Nombre o teléfono"><div class="list-group" id="lista_clientes_frecuentes"><?php foreach ($clientes_frecuentes as $cliente_frecuente) { ?><button type="button" class="list-group-item list-group-item-action seleccionar_cliente_frecuente" data-uuid="<?= htmlspecialchars($cliente_frecuente['uuid_cliente']) ?>"><strong><?= htmlspecialchars($cliente_frecuente['nombre_completo']) ?></strong><br><small><?= htmlspecialchars($cliente_frecuente['clave_pais_cliente'].' '.$cliente_frecuente['telefono_cliente']) ?></small></button><?php } ?></div><p class="text-muted mt-2 mb-0 d-none" id="sin_clientes_frecuentes">No se encontraron clientes.</p></div></div></div></div>
+	<div class="modal fade" id="modalEscanerQr" tabindex="-1" role="dialog" aria-labelledby="tituloEscanerQr" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document"><div class="modal-content">
+			<div class="modal-header"><h5 class="modal-title" id="tituloEscanerQr">Escanear tarjeta de lealtad</h5><button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button></div>
+			<div class="modal-body"><div id="lector_qr" style="width: 100%"></div><small class="form-text text-muted mt-2">Apunta la cámara al código QR del cliente.</small></div>
+		</div></div>
+	</div>
 	<!-- /.content-wrapper-->
 	<script src="../../lib/websocket-printer.js" > </script>
 	<script >  var printService = new WebSocketPrinter(); </script>
 	
 	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 	<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+	<script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
 	
 	
 	<script> 
@@ -382,7 +440,6 @@
 			$('#destino').select2({"width": "100%",  tags: true});
 			$('#num_eco').select2({"width": "100%"});
 			$('#id_conductores').select2({"width": "100%"});
-			
 			// $("#form_cotizar").submit(cotizarViaje)
 			
 			// initMap() 
@@ -391,6 +448,212 @@
 	
 	
 	<script> 
+		
+	
+		
+		$('#descuento').on("input", sumarImportes)
+		$('#id_descuento').change(function cambiarDescuento(){
+			console.log("cambiarDescuento()")
+			
+			if($(this).val() == ""){
+				
+				$("#grupo_descuento").addClass("d-none")
+			}
+			else{
+				$("#grupo_descuento").removeClass("d-none")
+			}
+			
+			
+		})
+		
+		var lectorQr = null;
+        var cuponAplicado = null;
+        var peticionCupon = null;
+        var validandoCupon = false;
+        var versionCupon = 0;
+        var claveAuto = '';
+        var versionAuto = 0;
+        function consultarPromocionAutomatica() {
+            var cliente = Number($('#id_cliente_frecuente').val()) || 0;
+            var subtotal = Number($('#subtotal').val()) || 0;
+            var clave = cliente + ':' + subtotal;
+            if (clave === claveAuto) { return; }
+            claveAuto = clave;
+            var version = ++versionAuto;
+            if (cuponAplicado && cuponAplicado.automatica) {
+                cuponAplicado = null; $('#codigo_cupon, #cupon').val(''); $('#mensaje_cupon').text('');
+            }
+            if (!cliente || subtotal <= 0 || cuponAplicado || $('#usar_puntos').is(':checked')) { return; }
+            $.post('consultas/promocion_automatica.php', {cliente:cliente, subtotal:subtotal}, null, 'json').done(function(r){
+                if (version !== versionAuto || cuponAplicado || $('#usar_puntos').is(':checked') || validandoCupon) { return; }
+                if (r.ok && r.promocion) {
+                    cuponAplicado=r.promocion;
+                    $('#codigo_cupon, #cupon').val(r.promocion.codigo);
+                    $('#mensaje_cupon').text('Beneficio de primera compra aplicado automáticamente.');
+                    sumarImportes();
+                }
+            });
+        }
+        function bloquearDescuentoOpuesto() {
+            var disponible = configuracionLealtad && configuracionLealtad.activa && puntosCliente >= Number(configuracionLealtad.canje_minimo);
+            if (cuponAplicado) { $('#usar_puntos').prop('checked', false); }
+            $('#usar_puntos').prop('disabled', !disponible || !!cuponAplicado || validandoCupon);
+            var usandoPuntos = $('#usar_puntos').is(':checked');
+            $('#cupon, #aplicar_cupon').prop('disabled', usandoPuntos || validandoCupon);
+            $('#quitar_cupon').toggleClass('d-none', !cuponAplicado);
+        }
+        $('#quitar_cupon').click(function(){ $('#cupon').val('').trigger('input'); });
+        $('#cupon').on('input', function(){
+            versionAuto++;
+            versionCupon++; validandoCupon = false;
+            if (peticionCupon) { peticionCupon.abort(); }
+            cuponAplicado = null; $('#codigo_cupon').val(''); $('#mensaje_cupon').text(''); sumarImportes();
+        });
+        $('#aplicar_cupon').click(function(){
+            versionAuto++;
+            if ($('#usar_puntos').is(':checked') || validandoCupon) { return; }
+            var codigo = $.trim($('#cupon').val()).toUpperCase();
+            if (peticionCupon) { peticionCupon.abort(); }
+            cuponAplicado = null; $('#codigo_cupon').val(''); sumarImportes();
+            if (!codigo) { $('#mensaje_cupon').text('Captura un cupón.'); return; }
+            var version = ++versionCupon;
+            validandoCupon = true; bloquearDescuentoOpuesto();
+            peticionCupon = $.post('consultas/validar_cupon.php', {codigo:codigo, subtotal:$('#subtotal').val(), cliente:$('#id_cliente_frecuente').val()}, null, 'json').done(function(r){
+                if (version !== versionCupon) { return; }
+                if (r.ok) { cuponAplicado = r; $('#codigo_cupon').val(r.codigo); $('#mensaje_cupon').text('Cupón aplicado.'); }
+                else { $('#mensaje_cupon').text(r.mensaje); }
+                sumarImportes();
+            }).fail(function(xhr, estado){ if (version === versionCupon && estado !== 'abort') { $('#mensaje_cupon').text('No se pudo validar el cupón.'); } }).always(function(){ if (version === versionCupon) { validandoCupon = false; bloquearDescuentoOpuesto(); } });
+        });
+		var puntosCliente = 0;
+		var configuracionLealtad = null;
+
+		function limpiarCliente() {
+            claveAuto = ''; versionAuto++;
+            if (cuponAplicado && cuponAplicado.automatica) { cuponAplicado=null; $('#codigo_cupon, #cupon').val(''); $('#mensaje_cupon').text(''); }
+            $('#btn_limpiar_cliente').addClass('d-none');
+			$("#id_cliente_frecuente, #uuid_cliente, #nombre_pasajero, #celular").val("");
+			$("#cliente_seleccionado").removeClass("alert-success alert-danger").addClass("alert-secondary").text("Público en general");
+			puntosCliente = 0;
+			configuracionLealtad = null;
+			$("#usar_puntos").prop("checked", false).prop("disabled", true);
+			$("#programa_puntos").addClass("d-none");
+			$("#descuento_puntos").val(0);
+			sumarImportes();
+		}
+
+		function actualizarCanjePuntos() {
+			var descuentoPuntos = 0;
+			if ($("#usar_puntos").is(":checked") && configuracionLealtad && configuracionLealtad.activa && puntosCliente >= configuracionLealtad.canje_minimo) {
+				descuentoPuntos = puntosCliente * configuracionLealtad.valor_punto;
+				$("#detalle_canje").text("Descuento por puntos: $" + descuentoPuntos.toFixed(2));
+			} else {
+				$("#detalle_canje").text("");
+			}
+			$("#descuento_puntos").val(descuentoPuntos.toFixed(2));
+			sumarImportes();
+		}
+
+		function cargarClientePorUuid(uuid) {
+			uuid = $.trim(uuid);
+			if (!uuid) { limpiarCliente(); return; }
+			$("#cargando_cliente").removeClass("d-none");
+			$.ajax({ url: "consultas/buscar_cliente_uuid.php", method: "POST", dataType: "json", data: { uuid: uuid } })
+			.done(function(respuesta) {
+				if (!respuesta.ok) {
+					limpiarCliente();
+					$("#uuid_cliente").val(uuid);
+					$("#cliente_seleccionado").removeClass("alert-secondary alert-success").addClass("alert-danger").text(respuesta.mensaje || "Cliente no encontrado");
+					return;
+				}
+				$("#id_cliente_frecuente").val(respuesta.cliente.id);
+                $('#btn_limpiar_cliente').removeClass('d-none');
+				$("#uuid_cliente").val(respuesta.cliente.uuid);
+				$("#nombre_pasajero").val(respuesta.cliente.nombre);
+				$("#celular").val(respuesta.cliente.telefono);
+				$("#cliente_seleccionado").removeClass("alert-secondary alert-danger").addClass("alert-success").text(respuesta.cliente.nombre + " · " + respuesta.cliente.telefono);
+				puntosCliente = Number(respuesta.cliente.puntos || 0);
+				configuracionLealtad = respuesta.lealtad || null;
+				if (configuracionLealtad && configuracionLealtad.activa) {
+					var disponible = puntosCliente >= Number(configuracionLealtad.canje_minimo);
+                    $("#saldo_puntos").text(puntosCliente.toLocaleString('es-MX'));
+                    $("#minimo_canje").text("Mínimo para canje: " + Number(configuracionLealtad.canje_minimo).toLocaleString('es-MX') + " puntos");
+					$("#usar_puntos").prop("checked", false).prop("disabled", !disponible);
+					$("#programa_puntos").removeClass("d-none");
+				} else { $("#programa_puntos").addClass("d-none"); }
+				actualizarCanjePuntos();
+			})
+			.fail(function() { $("#cliente_seleccionado").removeClass("alert-secondary alert-success").addClass("alert-danger").text("No fue posible consultar al cliente"); })
+			.always(function() { $("#cargando_cliente").addClass("d-none"); });
+		}
+
+		$("#uuid_cliente").on("change blur", function () { cargarClientePorUuid($(this).val()); });
+		$("#btn_limpiar_cliente").click(limpiarCliente);
+		$("#btn_buscar_cliente").click(function () { $("#filtro_cliente_frecuente").val(""); $(".seleccionar_cliente_frecuente").show(); $("#sin_clientes_frecuentes").addClass("d-none"); $("#modalBuscarCliente").modal("show"); });
+		$("#filtro_cliente_frecuente").on("input", function () { var texto = $.trim($(this).val()).toLowerCase(); var visibles = 0; $(".seleccionar_cliente_frecuente").each(function () { var coincide = $(this).text().toLowerCase().indexOf(texto) !== -1; $(this).toggle(coincide); if (coincide) { visibles++; } }); $("#sin_clientes_frecuentes").toggleClass("d-none", visibles !== 0); });
+		$(document).on("click", ".seleccionar_cliente_frecuente", function () { var uuid = $(this).data("uuid"); $("#modalBuscarCliente").modal("hide"); $("#uuid_cliente").val(uuid); cargarClientePorUuid(uuid); });
+		$("#usar_puntos").change(actualizarCanjePuntos);
+		$("#btn_escanear_qr").click(function () {
+			$("#modalEscanerQr").modal("show");
+			lectorQr = new Html5Qrcode("lector_qr");
+			lectorQr.start({ facingMode: "environment" }, { fps: 10, qrbox: { width: 250, height: 250 } }, function (texto) {
+				lectorQr.stop().then(function () { $("#modalEscanerQr").modal("hide"); $("#uuid_cliente").val(texto); cargarClientePorUuid(texto); });
+			}).catch(function () { $("#cliente_seleccionado").removeClass("alert-secondary alert-success").addClass("alert-danger").text("No se pudo iniciar la cámara"); });
+		});
+		$("#modalEscanerQr").on("hidden.bs.modal", function () { if (lectorQr) { lectorQr.stop().catch(function(){}); lectorQr = null; } });
+		
+		function guardarCliente(){
+			console.log("guardarCliente()")
+			
+			var boton = $("#form_cliente").find("submit");
+			var icono = boton.find("i")
+			
+			boton.prop("disabled", true)
+			icono.toggleClass("fa-save  fa-spinner spin")
+			
+			$.ajax({
+				
+				url:"consultas/guardar_cliente.php",
+				
+				type:"POST",
+				
+				data: $("#form_cliente") .serialize(),
+				
+				dataType:"json",
+				
+				success:function(r){
+					
+					if(r.ok){
+						
+						var option = new Option(
+						respuesta.nombre,
+						respuesta.id_cliente,
+						true,
+						true
+						);
+						
+						$(option)
+						.attr("data-nombre", respuesta.nombre)
+						.attr("data-telefono", respuesta.telefono);
+						
+						$("#id_cliente")
+						.append(option)
+						.trigger("change");
+						
+						$("#modalCliente").modal("hide");
+						
+					}
+					
+				}
+				
+				}).always(function(){
+				
+				boton.prop("disabled", true)
+				icono.toggleClass("fa-save  fa-spinner spin")
+				
+			});
+			
+		}
 		$(document).ready(function() {
 			$('#destino').select2({"width": "resolve",  tags: true});
 			$('#casetas').keyup(sumarImportes);
@@ -410,6 +673,8 @@
 			$('#destino').change(cotizarViaje)
 			
 			// initMap() 
+			
+			
 			
 			$('#intercambiar').click(function() {
 				console.log("intercambiar")
@@ -497,11 +762,12 @@
 				
 				//si es tarifa normal, precio si es ejecutiva precio_ejecutiva
 				if($("#tipo_unidad").find("option:selected").data("tipo") == "sedan"){
-					
+					$("#subtotal").val(respuesta[0].precio)
 					$("#precio_viaje_input").val(respuesta[0].precio)
 					
 				}
 				else{
+					$("#subtotal").val(respuesta[0].precio)
 					$("#precio_viaje_input").val(respuesta[0].precio_ejecutiva)
 				}
 				
@@ -676,16 +942,35 @@
 		
 		window.initMap = initMap;
 		
-		
 		function sumarImportes(){
+            consultarPromocionAutomatica();
+			bloquearDescuentoOpuesto();
 			
 			let precio_viaje = Number($("#precio_viaje_input").val());
 			let casetas = Number($("#casetas").val());
+			var base = Math.max(0, Number($('#subtotal').val()) || 0);
+            var promocion = cuponAplicado ? Math.min(base, Math.max(0, cuponAplicado.tipo === 'Porcentaje' ? base * cuponAplicado.valor/100 : cuponAplicado.valor)) : 0;
+            promocion = Math.round(promocion * 100)/100;
+            var puntos = $('#usar_puntos').is(':checked') && configuracionLealtad && configuracionLealtad.activa && puntosCliente >= configuracionLealtad.canje_minimo ? Math.min(base - promocion, Math.round(puntosCliente * configuracionLealtad.valor_punto * 100)/100) : 0;
+            $('#descuento_puntos').val(puntos.toFixed(2));
+            if ($('#usar_puntos').is(':checked')) { $('#detalle_canje').text('Descuento por puntos: $' + puntos.toFixed(2)); }
+            let descuento = promocion + puntos;
+            $('#descuento').val(descuento.toFixed(2));
 			
-			let total = precio_viaje + casetas;
+			console.log("precio_viaje", precio_viaje);
+			console.log("casetas", casetas);
+			console.log("descuento", descuento);
 			
+			// let subtotal = precio_viaje + casetas ;
+			let subtotal =  $("#subtotal").val() ;
+			console.log("subtotal", subtotal);
+			let total = Math.max(0, subtotal - descuento);
+			
+			console.log("total", total);
+			
+			// $("#subtotal").val(subtotal.toFixed(2))
 			$("#total").val(total.toFixed(2))
-			
+			cambiarFormaPago();
 		}
 		
 		function venderBoleto(event){
@@ -718,7 +1003,6 @@
 				}).done(function(respuesta){
 				if(respuesta.error){
 					alert(respuesta.error)
-					window.location.href="../login/form_login.php";
 					return
 				}
 				if(respuesta.estatus == "success"){

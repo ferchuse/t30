@@ -17,8 +17,8 @@
 	"traspasos_efectivo" => 0, 
 	"traspasos_transferencia" => 0, 
 	"recibos_salida" => 0, 
-	"gran_total" => 0, 
 	"saldo_final" => 0, 
+	"gran_total" => 0, 
 	];
 	
 	$balance_total = 0;

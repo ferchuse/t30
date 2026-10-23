@@ -89,6 +89,7 @@
 									<option selected value="">Todos</option>
 									<option  value="NACIONAL">NACIONAL</option>
 									<option  value="INTERNACIONAL">INTERNACIONAL</option>
+									<option value="APP">APP</option>
 								</select>
 							</div>
 							<div class="form-group col-md-1">
